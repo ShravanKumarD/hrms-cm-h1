@@ -131,7 +131,7 @@ export default class ExpenseReport extends Component {
                             {
                                 title: 'Amount', 
                                 render: rowData => (
-                                    "€ " + rowData.amount
+                                    "₹ " + rowData.amount
                                 )
                             },
                             {accessor: 'cash', footer: "Total:" + 1}
