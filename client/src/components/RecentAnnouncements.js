@@ -27,6 +27,7 @@ export default class RecentAnnouncements extends React.Component {
         this.setState({ recentAnnouncements: res.data });
       }
     });
+    console.log(this.state.recentAnnouncements);
   }
 
   componentWillUnmount() {
@@ -77,7 +78,7 @@ export default class RecentAnnouncements extends React.Component {
               className="mb-2 mt-1"
             >
               <div className="float-left mr-2">
-                <time datetime="2014-09-20" className="icon p-0">
+                <time dateTime="2014-09-20" className="icon p-0">
                   <em>{days[new Date(announcement.createdAt).getDay()]}</em>
                   <strong>
                     {monthNames[new Date(announcement.createdAt).getMonth()]}
@@ -85,12 +86,12 @@ export default class RecentAnnouncements extends React.Component {
                   <span>{new Date(announcement.createdAt).getDate()}</span>
                 </time>
               </div>
-              <span>
+              {/* <span>
                 <strong>{announcement.announcementTitle}</strong> (
                 {announcement.department.departmentName})
-              </span>
+              </span> */}
               <br className="p-1" />
-              <small>{announcement.announcementDescription}</small>
+              {/* <small>{announcement.announcementDescription}</small> */}
               <hr className=" pt-2 pb-1 mb-0" />
             </li>
           ))}
