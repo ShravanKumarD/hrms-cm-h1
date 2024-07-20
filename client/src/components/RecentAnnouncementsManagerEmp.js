@@ -78,7 +78,7 @@ export default class RecentAnnouncements extends React.Component {
               className="mb-2 mt-1"
             >
               <div className="float-left mr-2">
-                <time datetime="2014-09-20" className="icon p-0">
+                <time dateTime="2014-09-20" className="icon p-0">
                   <em>{days[new Date(announcement.createdAt).getDay()]}</em>
                   <strong>
                     {monthNames[new Date(announcement.createdAt).getMonth()]}

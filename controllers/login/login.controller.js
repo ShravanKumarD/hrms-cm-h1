@@ -28,7 +28,7 @@ exports.authenticate = (req, res) => {
   }).then((user) => {
     if (user) {
       if (user.active) {
-        if (bcrypt.compareSync(req.body.password, user.password)) {
+        if (bcrypt.compare(req.body.password, user.password)) {
           let deptId = null;
           if (user.department) {
             deptId = user.department.id;
