@@ -16,6 +16,7 @@ export default class SalaryViewEmployee extends Component {
 
   componentDidMount() {
     let id = JSON.parse(localStorage.getItem("user")).id;
+    axios.defaults.baseURL = "http://localhost:80";
     axios({
       method: "get",
       url: "api/users/" + id,

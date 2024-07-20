@@ -23,6 +23,7 @@ export default class Dashboard extends Component {
 
   componentDidMount() {
     // Fetch Employees Total
+    axios.defaults.baseURL = "http://localhost:80";
     axios({
       method: "get",
       url: "/api/users/total",
@@ -34,6 +35,7 @@ export default class Dashboard extends Component {
       .catch((err) => console.log(err));
 
     //Fetch Expenses Total
+    axios.defaults.baseURL = "http://localhost:80";
     axios({
       method: "get",
       url: "/api/expenses/year/2021",
@@ -50,6 +52,7 @@ export default class Dashboard extends Component {
     });
 
     //Fetch Payments Total
+    axios.defaults.baseURL = "http://localhost:80";
     axios({
       method: "get",
       url: "api/payments/year/2021",

@@ -44,6 +44,7 @@ export default class EmployeeAdd extends Component {
   }
 
   componentDidMount() {
+    axios.defaults.baseURL = "http://localhost:80";
     axios({
       method: "get",
       url: "/api/departments",
@@ -83,6 +84,7 @@ export default class EmployeeAdd extends Component {
     };
 
     e.preventDefault();
+    axios.defaults.baseURL = "http://localhost:80";
     axios({
       method: "post",
       url: "/api/users",
@@ -107,6 +109,7 @@ export default class EmployeeAdd extends Component {
           userId: userId,
         };
 
+        axios.defaults.baseURL = "http://localhost:80";
         axios({
           method: "post",
           url: "/api/personalInformations",
@@ -122,6 +125,7 @@ export default class EmployeeAdd extends Component {
               userId: userId,
             };
 
+            axios.defaults.baseURL = "http://localhost:80";
             axios({
               method: "post",
               url: "api/financialInformations",
@@ -137,6 +141,7 @@ export default class EmployeeAdd extends Component {
                   endDate: this.state.endDate,
                   userId: userId,
                 };
+                axios.defaults.baseURL = "http://localhost:80";
                 axios({
                   method: "post",
                   url: "api/jobs/",

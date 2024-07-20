@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Redirect } from 'react-router-dom'
+import { Redirect } from "react-router-dom";
 import { Alert } from "react-bootstrap";
 import axios from "axios";
 
@@ -13,7 +13,7 @@ export default class Login extends Component {
       passwordShow: false,
       hasError: false,
       errorMessage: "",
-      done: false
+      done: false,
     };
 
     this.onChange = this.onChange.bind(this);
@@ -44,20 +44,21 @@ export default class Login extends Component {
       password: this.state.password,
     };
 
+    axios.defaults.baseURL = "http://localhost:80";
     axios({
       method: "post",
       url: "/login",
       data: user,
     })
       .then((res) => {
-        localStorage.setItem('token', res.data.token)
-        this.setState({done: true})
+        localStorage.setItem("token", res.data.token);
+        this.setState({ done: true });
       })
       .catch((err) => {
         console.log(err.response);
         this.setState({
           hasError: true,
-          errorMessage: err.response.data.message
+          errorMessage: err.response.data.message,
         });
       });
   };

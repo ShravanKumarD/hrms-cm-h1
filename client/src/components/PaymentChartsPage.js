@@ -19,6 +19,7 @@ export default class ExpenseChartsPage extends React.Component {
   }
 
   fetchData = () => {
+    axios.defaults.baseURL = "http://localhost:80";
     axios({
       method: "get",
       url: "api/payments/year/" + this.state.paymentYear,

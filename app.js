@@ -27,12 +27,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, "public")));
 
-var corsOptions = {
-  origin: "*",
-  optionsSuccessStatus: 200,
-};
+// var corsOptions = {
+//   origin: "*",
+//   optionsSuccessStatus: 200,
+// };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 db.sequelize.sync({ alter: true });
 

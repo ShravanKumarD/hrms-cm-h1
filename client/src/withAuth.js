@@ -14,20 +14,21 @@ export default function withAuth(ComponentToProtect) {
     }
 
     componentDidMount() {
-      let token = localStorage.getItem('token');
+      let token = localStorage.getItem("token");
+      axios.defaults.baseURL = "http://localhost:80";
       axios({
         method: "get",
         url: "/checkToken",
-        headers: {"Authorization" : `Bearer ${token}`}
+        headers: { Authorization: `Bearer ${token}` },
       })
         .then((res) => {
           this.setState({ isAuthenticated: true });
           console.log(`Access: ${this.state.isAuthenticated}`);
-          localStorage.setItem('user', JSON.stringify(res.data.authData.user))
+          localStorage.setItem("user", JSON.stringify(res.data.authData.user));
           this.setState({ loading: false });
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err);
           console.log(`Access: ${this.state.isAuthenticated}`);
           // localStorage.removeItem('user')
           // localStorage.removeItem('token')

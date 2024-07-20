@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Alert } from "react-bootstrap";
-import {NavLink} from 'react-router-dom'
+import { NavLink } from "react-router-dom";
 
 export default class Register extends Component {
   constructor(props) {
@@ -59,18 +59,19 @@ export default class Register extends Component {
         fullname: this.state.fullname,
       };
 
+      axios.defaults.baseURL = "http://localhost:80";
       axios({
         method: "post",
         url: "/register",
         data: newUser,
       })
         .then((res) => {
-          this.setState({completed: true, hasError: false})
+          this.setState({ completed: true, hasError: false });
         })
         .catch((err) => {
           this.setState({
             hasError: true,
-            errorMessage: err.response.data.message 
+            errorMessage: err.response.data.message,
           });
         });
     }
@@ -92,7 +93,8 @@ export default class Register extends Component {
             ) : null}
             {this.state.completed ? (
               <Alert variant="success">
-                You have been registered successfully. <NavLink to="/login">Go to Login.</NavLink>
+                You have been registered successfully.{" "}
+                <NavLink to="/login">Go to Login.</NavLink>
               </Alert>
             ) : null}
             <p className="login-box-msg">Register</p>
