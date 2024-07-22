@@ -107,7 +107,7 @@ export default class Expense extends Component {
             <Card className="main-card">
               <Card.Header>Add Expense</Card.Header>
               <Card.Body>
-                <Card.Text>
+                <div>
                   <Form onSubmit={this.onSubmit}>
                     <Form.Group>
                       <Form.Label>Item Name: </Form.Label>
@@ -170,7 +170,7 @@ export default class Expense extends Component {
                       Save
                     </Button>
                   </Form>
-                </Card.Text>
+                </div>
               </Card.Body>
             </Card>
           </div>

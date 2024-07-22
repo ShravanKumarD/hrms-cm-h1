@@ -141,7 +141,7 @@ export default class Announcement extends Component {
                 <strong>Add Announcement</strong>
               </Card.Header>
               <Card.Body>
-                <Card.Text>
+                <div>
                   <Form onSubmit={this.onSubmit}>
                     <Form.Group>
                       <Form.Label>Title</Form.Label>
@@ -180,7 +180,7 @@ export default class Announcement extends Component {
                       Publish
                     </Button>
                   </Form>
-                </Card.Text>
+                </div>
               </Card.Body>
             </Card>
           </div>

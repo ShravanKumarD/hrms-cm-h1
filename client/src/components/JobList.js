@@ -201,7 +201,7 @@ export default class JobList extends Component {
                 <div className="required">Select Department</div>
               </Card.Header>
               <Card.Body>
-                <Card.Text>
+                <div>
                   <select
                     className="select-css"
                     value={this.state.selectedDepartment || ""}
@@ -210,7 +210,7 @@ export default class JobList extends Component {
                     <option value="">Choose one...</option>
                     {this.pushSelectItems()}
                   </select>
-                </Card.Text>
+                </div>
               </Card.Body>
             </Card>
           </div>

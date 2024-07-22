@@ -224,7 +224,7 @@ export default class EmployeeAdd extends Component {
                   <Card className="secondary-card">
                     <Card.Header>Personal Details</Card.Header>
                     <Card.Body>
-                      <Card.Text>
+                      <div>
                         <Form.Group controlId="formFirstName">
                           <Form.Label className="text-muted required">
                             First Name
@@ -340,7 +340,7 @@ export default class EmployeeAdd extends Component {
                             required
                           />
                         </Form.Group>
-                      </Card.Text>
+                      </div>
                     </Card.Body>
                   </Card>
                 </div>
@@ -348,7 +348,7 @@ export default class EmployeeAdd extends Component {
                   <Card className="secondary-card">
                     <Card.Header>Contact Details</Card.Header>
                     <Card.Body>
-                      <Card.Text>
+                      <div>
                         <Form.Group controlId="formPhysicalAddress">
                           <Form.Label className="text-muted required">
                             Physical Address
@@ -424,7 +424,7 @@ export default class EmployeeAdd extends Component {
                             required
                           />
                         </Form.Group>
-                      </Card.Text>
+                      </div>
                     </Card.Body>
                   </Card>
                 </div>
@@ -434,7 +434,7 @@ export default class EmployeeAdd extends Component {
                   <Card className="secondary-card">
                     <Card.Header>Bank Information</Card.Header>
                     <Card.Body>
-                      <Card.Text>
+                      <div>
                         <Form.Group controlId="formBankName">
                           <Form.Label className="text-muted">
                             Bank Name
@@ -481,7 +481,7 @@ export default class EmployeeAdd extends Component {
                             placeholder="Enter Iban"
                           />
                         </Form.Group>
-                      </Card.Text>
+                      </div>
                     </Card.Body>
                   </Card>
                 </div>
@@ -489,7 +489,7 @@ export default class EmployeeAdd extends Component {
                   <Card className="secondary-card">
                     <Card.Header>Official Status</Card.Header>
                     <Card.Body>
-                      <Card.Text>
+                      <div>
                         <Form.Group controlId="formEmployeeId">
                           <Form.Label className="text-muted required">
                             Employee ID
@@ -550,7 +550,7 @@ export default class EmployeeAdd extends Component {
                             <option value="ROLE_EMPLOYEE">Employee</option>
                           </Form.Control>
                         </Form.Group>
-                      </Card.Text>
+                      </div>
                     </Card.Body>
                   </Card>
                   <Button variant="primary" type="submit" block>
@@ -563,7 +563,7 @@ export default class EmployeeAdd extends Component {
                   <Card className="secondary-card">
                     <Card.Header>Job</Card.Header>
                     <Card.Body>
-                      <Card.Text>
+                      <div>
                         <Form.Group controlId="formJobTitle">
                           <Form.Label className="text-muted required">
                             Job Title
@@ -617,7 +617,7 @@ export default class EmployeeAdd extends Component {
                             />
                           </Form.Row>
                         </Form.Group>
-                      </Card.Text>
+                      </div>
                     </Card.Body>
                   </Card>
                 </div>

@@ -54,7 +54,7 @@ export default class DepartmentAdd extends Component {
           <b>Add Department</b>
         </Card.Header>
         <Card.Body>
-          <Card.Text>
+          <div>
             <Form onSubmit={this.onSubmit}>
               <Form.Group controlId="formDepartmentName">
                 <Form.Label className="text-muted mb-2">
@@ -74,7 +74,7 @@ export default class DepartmentAdd extends Component {
                 Add
               </Button>
             </Form>
-          </Card.Text>
+          </div>
         </Card.Body>
         {this.state.hasError ? (
           <Alert variant="danger" className="m-3" block>

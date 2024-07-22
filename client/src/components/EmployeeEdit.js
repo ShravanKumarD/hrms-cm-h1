@@ -315,7 +315,7 @@ export default class EmployeeEdit extends Component {
                   <Card className="secondary-card">
                     <Card.Header>Personal Details</Card.Header>
                     <Card.Body>
-                      <Card.Text>
+                      <div>
                         <Form.Group controlId="formFullName">
                           <Form.Label className="text-muted required">
                             Full Name
@@ -419,7 +419,7 @@ export default class EmployeeEdit extends Component {
                             required
                           />
                         </Form.Group>
-                      </Card.Text>
+                      </div>
                     </Card.Body>
                   </Card>
                 </div>
@@ -427,7 +427,7 @@ export default class EmployeeEdit extends Component {
                   <Card className="secondary-card">
                     <Card.Header>Contact Details</Card.Header>
                     <Card.Body>
-                      <Card.Text>
+                      <div>
                         <Form.Group controlId="formPhysicalAddress">
                           <Form.Label className="text-muted required">
                             Physical Address
@@ -503,7 +503,7 @@ export default class EmployeeEdit extends Component {
                             required
                           />
                         </Form.Group>
-                      </Card.Text>
+                      </div>
                     </Card.Body>
                   </Card>
                 </div>
@@ -513,7 +513,7 @@ export default class EmployeeEdit extends Component {
                   <Card className="secondary-card">
                     <Card.Header>Bank Information</Card.Header>
                     <Card.Body>
-                      <Card.Text>
+                      <div>
                         <Form.Group controlId="formBankName">
                           <Form.Label className="text-muted">
                             Bank Name
@@ -560,7 +560,7 @@ export default class EmployeeEdit extends Component {
                             placeholder="Enter Iban"
                           />
                         </Form.Group>
-                      </Card.Text>
+                      </div>
                     </Card.Body>
                   </Card>
                 </div>
@@ -568,7 +568,7 @@ export default class EmployeeEdit extends Component {
                   <Card className="secondary-card">
                     <Card.Header>Official Status</Card.Header>
                     <Card.Body>
-                      <Card.Text>
+                      <div>
                         <Form.Group controlId="formEmployeeId">
                           <Form.Label className="text-muted">
                             Employee ID
@@ -622,7 +622,7 @@ export default class EmployeeEdit extends Component {
                             <option value={true}>Active</option>
                           </Form.Control>
                         </Form.Group>
-                      </Card.Text>
+                      </div>
                     </Card.Body>
                   </Card>
                   <Button variant="primary" type="submit" block>

@@ -103,7 +103,7 @@ export default class ExpenseReport extends Component {
             <Card className="secondary-card">
               <Card.Header>Select Date</Card.Header>
               <Card.Body>
-                <Card.Text>
+                <div>
                   <Form onSubmit={this.onSubmit}>
                     <Form.Group>
                       <Form.Label>Select Date</Form.Label>
@@ -121,7 +121,7 @@ export default class ExpenseReport extends Component {
                       Search
                     </Button>
                   </Form>
-                </Card.Text>
+                </div>
               </Card.Body>
             </Card>
           </div>

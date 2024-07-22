@@ -98,7 +98,7 @@ export default class EmployeeViewEmployee extends Component {
                 <Card.Title>
                   <strong>{this.state.user.fullName}</strong>
                 </Card.Title>
-                <Card.Text>
+                <div>
                   <Col lg={12}>
                     <Row className="pt-4">
                       <Col lg={3}>
@@ -263,7 +263,7 @@ export default class EmployeeViewEmployee extends Component {
                       <Col sm={6}></Col>
                     </Row>
                   </Col>
-                </Card.Text>
+                </div>
               </Card.Body>
             </Card>
           </Col>
