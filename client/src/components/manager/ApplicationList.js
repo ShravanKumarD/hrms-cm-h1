@@ -7,7 +7,7 @@ import axios from "axios";
 import moment from "moment";
 import MaterialTable from "material-table";
 import { ThemeProvider } from "@material-ui/core";
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 
 export default class ApplicationList extends Component {
   constructor(props) {
@@ -104,7 +104,7 @@ export default class ApplicationList extends Component {
   }
 
   render() {
-    const theme = createMuiTheme({
+    const theme = createTheme({
       overrides: {
         MuiTableCell: {
           root: {

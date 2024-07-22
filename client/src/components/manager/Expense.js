@@ -6,7 +6,7 @@ import moment from "moment";
 import DatePicker from "react-datepicker";
 import MaterialTable from "material-table";
 import { ThemeProvider } from "@material-ui/core";
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 
 export default class Expense extends Component {
   constructor(props) {

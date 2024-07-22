@@ -8,7 +8,7 @@ import axios from "axios";
 import moment from "moment";
 import MaterialTable from "material-table";
 import { ThemeProvider } from "@material-ui/core";
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 import AlertModal from "./AlertModal";
 
 export default class SalaryDetails extends Component {

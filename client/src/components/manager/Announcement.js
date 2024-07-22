@@ -4,7 +4,7 @@ import { Redirect, NavLink } from "react-router-dom";
 import axios from "axios";
 import MaterialTable from "material-table";
 import { ThemeProvider } from "@material-ui/core";
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 import AlertModal from "../AlertModal";
 
 export default class Announcement extends Component {
@@ -97,7 +97,7 @@ export default class Announcement extends Component {
   render() {
     let closeAlertModel = () => this.setState({ showAlertModel: false });
 
-    const theme = createMuiTheme({
+    const theme = createTheme({
       overrides: {
         MuiTableCell: {
           root: {
