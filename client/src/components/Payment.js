@@ -9,7 +9,7 @@ import moment from "moment";
 import DatePicker from "react-datepicker";
 import MaterialTable from "material-table";
 import { ThemeProvider } from "@material-ui/core";
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 import AlertModal from "./AlertModal";
 
 export default class Payment extends Component {
@@ -258,7 +258,7 @@ export default class Payment extends Component {
   };
 
   render() {
-    const theme = createMuiTheme({
+    const theme = createTheme({
       overrides: {
         MuiTableCell: {
           root: {

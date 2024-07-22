@@ -8,7 +8,7 @@ export default class ExpenseChartsPage extends React.Component {
 
     this.state = {
       chartData: [],
-      expenseYear: 2021,
+      expenseYear: 2024,
     };
 
     this.onChange = this.onChange.bind(this);

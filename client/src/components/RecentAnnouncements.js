@@ -25,6 +25,7 @@ export default class RecentAnnouncements extends React.Component {
     }).then((res) => {
       if (this._isMounted) {
         this.setState({ recentAnnouncements: res.data });
+        console.log(this.state.recentAnnouncements);
       }
     });
     console.log(this.state.recentAnnouncements);
@@ -86,12 +87,12 @@ export default class RecentAnnouncements extends React.Component {
                   <span>{new Date(announcement.createdAt).getDate()}</span>
                 </time>
               </div>
-              {/* <span>
+              <span>
                 <strong>{announcement.announcementTitle}</strong> (
                 {announcement.department.departmentName})
-              </span> */}
+              </span>
               <br className="p-1" />
-              {/* <small>{announcement.announcementDescription}</small> */}
+              <small>{announcement.announcementDescription}</small>
               <hr className=" pt-2 pb-1 mb-0" />
             </li>
           ))}
