@@ -147,7 +147,7 @@ export default class EmployeeList extends Component {
                             variant="info"
                             onClick={this.onSalaryView(rowData)}
                           >
-                            <i className="fas fa-euro-sign"></i>
+                            <i className="fas fa-rupee-sign"></i>
                           </Button>
                         </Form>
                       ),

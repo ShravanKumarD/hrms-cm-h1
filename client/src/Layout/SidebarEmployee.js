@@ -63,7 +63,7 @@ export default class SidebarEmployee extends Component {
               </li>
               <li className="nav-item">
                 <NavLink exact to="/salary-view" className="nav-link">
-                  <i className="nav-icon fas fa-euro-sign" />
+                  <i className="nav-icon fas fa-rupee-sign" />
                   <p>
                     My Salary Details
                   </p>
