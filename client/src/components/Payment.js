@@ -302,7 +302,7 @@ export default class Payment extends Component {
             <Card className="main-card">
               <Card.Header>Manage Salary Details</Card.Header>
               <Card.Body>
-                <Card.Text>
+                <div>
                   <Form onSubmit={this.findPayments}>
                     <Form.Group>
                       <Form.Label>Select Department: </Form.Label>
@@ -352,7 +352,7 @@ export default class Payment extends Component {
                       Search
                     </Button>
                   </Form>
-                </Card.Text>
+                </div>
               </Card.Body>
             </Card>
           </div>
@@ -367,7 +367,7 @@ export default class Payment extends Component {
                   {new Date(this.state.selectedDate).getFullYear()}
                 </Card.Header>
                 <Card.Body>
-                  <Card.Text>
+                  <div>
                     <Form onSubmit={this.onSubmit}>
                       <Form.Group>
                         <Form.Label className="required">
@@ -452,7 +452,7 @@ export default class Payment extends Component {
                         Save
                       </Button>
                     </Form>
-                  </Card.Text>
+                  </div>
                 </Card.Body>
               </Card>
             </div>
@@ -460,7 +460,7 @@ export default class Payment extends Component {
               <Card className="main-card">
                 <Card.Header>Payment History</Card.Header>
                 <Card.Body>
-                  <Card.Text>
+                  <div>
                     <ThemeProvider theme={theme}>
                       <MaterialTable
                         columns={[
@@ -510,7 +510,7 @@ export default class Payment extends Component {
                         title="History"
                       />
                     </ThemeProvider>
-                  </Card.Text>
+                  </div>
                 </Card.Body>
               </Card>
             </div>

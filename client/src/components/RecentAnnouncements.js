@@ -16,7 +16,7 @@ const RecentAnnouncements = () => {
     }).then((res) => {
       if (isMounted) {
         setRecentAnnouncements(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       }
     });
 
