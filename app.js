@@ -1,19 +1,19 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
-var withAuth = require("./withAuth");
-var cors = require("cors");
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const withAuth = require("./withAuth");
+const cors = require("cors");
 
 const db = require("./models");
 require("dotenv").config();
 
-var api = require("./routes/api");
-var login = require("./routes/login/login.routes");
-var register = require("./routes/register/register.routes");
+const api = require("./routes/api");
+const login = require("./routes/login/login.routes");
+const register = require("./routes/register/register.routes");
 
-var app = express();
+const app = express();
 
 // global.__basedir = __dirname;
 
@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, "public")));
 
-// var corsOptions = {
+// const corsOptions = {
 //   origin: "*",
 //   optionsSuccessStatus: 200,
 // };
