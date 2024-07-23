@@ -5,10 +5,10 @@ module.exports = (sequelize, Sequelize) => {
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        // references: {
-        //   model: "Users", // Assumes 'Users' table exists
-        //   key: "id",
-        // },
+        references: {
+          model: "User", // Assumes 'User' table exists
+          key: "id",
+        },
       },
       date: {
         type: Sequelize.DATEONLY,

@@ -55,10 +55,14 @@ export default class Login extends Component {
         this.setState({ done: true });
       })
       .catch((err) => {
-        console.log(err.response);
+        console.log(err);
+        let errorMessage = "An unexpected error occurred";
+        if (err.response && err.response.data && err.response.data.message) {
+          errorMessage = err.response.data.message;
+        }
         this.setState({
           hasError: true,
-          errorMessage: err.response.data.message,
+          errorMessage: errorMessage,
         });
       });
   };
