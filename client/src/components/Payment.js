@@ -287,7 +287,7 @@ export default class Payment extends Component {
       <div className="container-fluid pt-2">
         <div className="row">
           {this.state.hasError ? (
-            <Alert variant="danger" className="m-3" block>
+            <Alert variant="danger" className="m-3" block={this.state.hasError ? "true" : "false"}>
               {this.state.errMsg}
             </Alert>
           ) : this.state.completed ? (
