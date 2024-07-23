@@ -1,21 +1,21 @@
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, Sequelize) => {
   const Attendance = sequelize.define(
     "Attendance",
     {
       userId: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: "Users", // Assumes 'Users' table exists
-          key: "id",
-        },
+        // references: {
+        //   model: "Users", // Assumes 'Users' table exists
+        //   key: "id",
+        // },
       },
       date: {
-        type: DataTypes.DATEONLY,
+        type: Sequelize.DATEONLY,
         allowNull: false,
       },
       status: {
-        type: DataTypes.ENUM,
+        type: Sequelize.ENUM,
         values: ["Present", "Absent", "Leave"],
         allowNull: false,
       },
@@ -23,8 +23,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       tableName: "attendances",
       timestamps: false,
-      underscored: true,
-      freezeTableName: true,
     }
   );
 
