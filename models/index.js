@@ -61,6 +61,11 @@ db.user.hasMany(db.job, {
   onDelete: "CASCADE",
   hooks: true,
 });
+db.user.hasMany(db.attendance, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
+  hooks: true,
+});
 db.user.belongsTo(db.department, { foreginKey: { allowNull: true } });
 
 // User Financial Informations Assocations
@@ -98,6 +103,12 @@ db.deptAnnouncement.belongsTo(db.department, {
 });
 db.deptAnnouncement.belongsTo(db.user, {
   foreignKey: { name: "createdByUserId", allowNull: false },
+});
+
+// Attendance Associations
+db.attendance.belongsTo(db.user, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
 });
 
 module.exports = db;
