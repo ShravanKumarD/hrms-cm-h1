@@ -21,6 +21,8 @@ import ApplicationList from "./components/ApplicationList"
 import ApplicationListManager from "./components/manager/ApplicationList"
 import ApplicationListEmployee from './components/employee/ApplicationList'
 import Application from "./components/Application"
+import MarkAttendance from "./components/MarkAttendance"
+import AttendanceList from "./components/AttendanceList"
 import SalaryDetails from './components/SalaryDetails'
 import SalaryList from './components/SalaryList'
 import SalaryView from './components/SalaryView'
@@ -97,6 +99,8 @@ const AdminContainer = () => (
         <Route exact path="/job-list" component={withAuth(JobList)} />
         <Route exact path="/application-list" component={withAuth(ApplicationList)} />
         <Route exact path="/application" component={withAuth(Application)} />
+        <Route exact path="/attendance/mark" component={withAuth(MarkAttendance)} />
+        <Route exact path="/attendance" component={withAuth(AttendanceList)} />
         <Route exact path="/salary-details" component={withAuth(SalaryDetails)} />
         <Route exact path="/salary-list" component={withAuth(SalaryList)} />
         <Route exact path="/salary-view" component={withAuth(SalaryView)} />

@@ -186,6 +186,34 @@ export default class SidebarAdmin extends Component {
                   </li>
                 </ul>
               </li>
+              {/* Attendance Management */}
+              <li className="nav-item has-treeview">
+                <NavLink
+                  to="/fake-url"
+                  className="nav-link"
+                  activeClassName="nav-link"
+                >
+                  <i className="nav-icon fas fa-calendar-check" />
+                  <p>
+                    Attendance
+                    <i className="right fas fa-angle-left" />
+                  </p>
+                </NavLink>
+                <ul className="nav nav-treeview">
+                  <li className="nav-item">
+                    <NavLink to="/attendance/mark" className="nav-link">
+                      <i className="fas fa-check nav-icon" />
+                      <p>Mark Attendance</p>
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to="/attendance" className="nav-link">
+                      <i className="fas fa-list nav-icon" />
+                      <p>Attendance List</p>
+                    </NavLink>
+                  </li>
+                </ul>
+              </li>
               <li className="nav-item">
                 <NavLink exact to="/announcement" className="nav-link">
                   <i className="nav-icon fa fa-bell" />
