@@ -1,76 +1,61 @@
 const db = require("../../models");
-const User = db.user;
-const UserPersonalInfo = db.userPersonalInfo
-const UserFinancialInfo = db.userFinancialInfo
-
-const bcrypt = require('bcrypt')
+const {
+  user: User,
+  userPersonalInfo: UserPersonalInfo,
+  userFinancialInfo: UserFinancialInfo,
+} = db;
+const bcrypt = require("bcrypt");
 
 // Create and Save a new User
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
+  try {
     // Validate request
-    if (!req.body) {
-        res.status(400).send({
-            message: "Content can not be empty!"
-        });
-        return;
+    if (
+      !req.body ||
+      !req.body.username ||
+      !req.body.password ||
+      !req.body.fullname
+    ) {
+      return res.status(400).json({ message: "Content cannot be empty!" });
     }
 
-    let hash = null;
-    if(req.body.password) {
-        hash = bcrypt.hashSync(req.body.password.toString(), 10);
-    }
+    // Hash password if provided
+    const hash = req.body.password
+      ? await bcrypt.hash(req.body.password.toString(), 10)
+      : null;
 
-    // Create a User
+    // Create a User object
     const user = {
-        username: req.body.username,
-        password: hash,
-        fullName: req.body.fullname,
-        role: "ROLE_EMPLOYEE",
-        active: false
+      username: req.body.username,
+      password: hash,
+      fullName: req.body.fullname,
+      role: "ROLE_EMPLOYEE",
+      active: false,
     };
 
-    // Save User in the database
-    User.findOne({ where: { username: user.username } })
-        .then(userExists => {
-            if (!userExists) {
-                User.create(user)
-                    .then(data => {
-                        let userData = {
-                            userId: data.dataValues.id
-                        }
-                        UserPersonalInfo.create(userData)
-                        .then(data => {
-                            UserFinancialInfo.create(userData)
-                            .then(data => {
-                                res.send(data)
-                            })
-                            .catch(err => {
-                                console.log(err)
-                                res.status(500).send({
-                                    message:
-                                        err.message || "Some error occurred while creating the User."
-                                }); 
-                            })
-                        })
-                        .catch(err => {
-                            console.log(err)
-                            res.status(500).send({
-                                message:
-                                    err.message || "Some error occurred while creating the User."
-                            }); 
-                        })
-                        res.send(data);
-                    })
-                    .catch(err => {
-                        res.status(500).send({
-                            message:
-                                err.message || "Some error occurred while creating the User."
-                        });
-                    });
-            } else {
-                res.status(403).send({
-                    message: "Username already exists"
-                })
-            }
-        })
+    // Check if user already exists
+    const userExists = await User.findOne({
+      where: { username: user.username },
+    });
+    if (userExists) {
+      return res.status(403).json({ message: "Username already exists" });
+    }
+
+    // Create the user
+    const createdUser = await User.create(user);
+
+    // Create associated user personal and financial info
+    const userData = { userId: createdUser.id };
+    await UserPersonalInfo.create(userData);
+    await UserFinancialInfo.create(userData);
+
+    return res.status(201).json(createdUser);
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({
+        message: err.message || "Some error occurred while creating the User.",
+      });
+  }
 };

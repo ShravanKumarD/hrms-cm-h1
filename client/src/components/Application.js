@@ -85,10 +85,14 @@ const Application = () => {
                 required
               >
                 <option value="">Choose one</option>
-                <option value="normal">Normal</option>
-                <option value="illness">Illness</option>
-                <option value="student">Student</option>
-                <option value="marriage">Marriage</option>
+                <option value="Leave">Leave</option>
+                <option value="Regularisation">Regularisation</option>
+                <option value="Work From Home">Work From Home</option>
+                <option value="On Duty">On Duty</option>
+                <option value="Comp Off">Comp Off</option>
+                <option value="Expense">Expense</option>
+                <option value="Restricted Holiday">Restricted Holiday</option>
+                <option value="Short Leave">Short Leave</option>{" "}
               </Form.Control>
             </Form.Group>
             <Form.Group>

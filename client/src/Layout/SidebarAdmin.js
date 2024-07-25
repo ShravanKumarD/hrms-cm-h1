@@ -60,6 +60,67 @@ export default class SidebarAdmin extends Component {
                   </p>
                 </NavLink>
               </li>
+              {/* Attendance Management */}
+              <li className="nav-item has-treeview">
+                <NavLink
+                  to="/fake-url"
+                  className="nav-link"
+                  activeClassName="nav-link"
+                >
+                  <i className="nav-icon fas fa-calendar-check" />
+                  <p>
+                    Attendance Management
+                    <i className="right fas fa-angle-left" />
+                  </p>
+                </NavLink>
+                <ul className="nav nav-treeview">
+                  <li className="nav-item">
+                    <NavLink to="/attendance/timesheet" className="nav-link">
+                      <i className="fas fa-calendar-alt nav-icon" />
+                      <p>Timesheet</p>
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to="/attendance/mark" className="nav-link">
+                      <i className="fas fa-check nav-icon" />
+                      <p>Mark Attendance</p>
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to="/attendance/list" className="nav-link">
+                      <i className="fas fa-list nav-icon" />
+                      <p>Attendance List</p>
+                    </NavLink>
+                  </li>
+                </ul>
+              </li>
+              <li className="nav-item has-treeview">
+                <NavLink
+                  to="/fake-url"
+                  className="nav-link"
+                  activeClassName="nav-link"
+                >
+                  <i className="nav-icon fa fa-rocket" />
+                  <p>
+                    Applications
+                    <i className="right fas fa-angle-left" />
+                  </p>
+                </NavLink>
+                <ul className="nav nav-treeview">
+                  <li className="nav-item">
+                    <NavLink to="/application" className="nav-link">
+                      <i className="fa fa-plus nav-icon" />
+                      <p>Add Application</p>
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to="/application-list" className="nav-link">
+                      <i className="fas fa-list-ul nav-icon" />
+                      <p>Application List</p>
+                    </NavLink>
+                  </li>
+                </ul>
+              </li>
               <li className="nav-item">
                 <NavLink exact to="/departments" className="nav-link">
                   <i className="nav-icon fa fa-building" />
@@ -98,33 +159,6 @@ export default class SidebarAdmin extends Component {
                   <i className="nav-icon fas fa-briefcase" />
                   <p>Job List</p>
                 </NavLink>
-              </li>
-              <li className="nav-item has-treeview">
-                <NavLink
-                  to="/fake-url"
-                  className="nav-link"
-                  activeClassName="nav-link"
-                >
-                  <i className="nav-icon fa fa-rocket" />
-                  <p>
-                    Applications
-                    <i className="right fas fa-angle-left" />
-                  </p>
-                </NavLink>
-                <ul className="nav nav-treeview">
-                  <li className="nav-item">
-                    <NavLink to="/application" className="nav-link">
-                      <i className="fa fa-plus nav-icon" />
-                      <p>Add Application</p>
-                    </NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <NavLink to="/application-list" className="nav-link">
-                      <i className="fas fa-list-ul nav-icon" />
-                      <p>Application List</p>
-                    </NavLink>
-                  </li>
-                </ul>
               </li>
               <li className="nav-item has-treeview">
                 <NavLink
@@ -182,40 +216,6 @@ export default class SidebarAdmin extends Component {
                     <NavLink to="/expense-report" className="nav-link">
                       <i className="fas fa-file-invoice nav-icon" />
                       <p>Expense Report</p>
-                    </NavLink>
-                  </li>
-                </ul>
-              </li>
-              {/* Attendance Management */}
-              <li className="nav-item has-treeview">
-                <NavLink
-                  to="/fake-url"
-                  className="nav-link"
-                  activeClassName="nav-link"
-                >
-                  <i className="nav-icon fas fa-calendar-check" />
-                  <p>
-                    Attendance
-                    <i className="right fas fa-angle-left" />
-                  </p>
-                </NavLink>
-                <ul className="nav nav-treeview">
-                  <li className="nav-item">
-                    <NavLink to="/attendance/mark" className="nav-link">
-                      <i className="fas fa-check nav-icon" />
-                      <p>Mark Attendance</p>
-                    </NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <NavLink to="/attendance" className="nav-link">
-                      <i className="fas fa-list nav-icon" />
-                      <p>Attendance List</p>
-                    </NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <NavLink to="/attendance/timesheet" className="nav-link">
-                      <i className="fas fa-calendar-alt nav-icon" />
-                      <p>Timesheet</p>
                     </NavLink>
                   </li>
                 </ul>
