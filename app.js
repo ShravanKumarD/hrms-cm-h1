@@ -1,3 +1,5 @@
+// app.js
+
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
@@ -5,6 +7,8 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const withAuth = require("./withAuth");
 const cors = require("cors");
+const http = require("http");
+const debug = require("debug")("server:server");
 
 const db = require("./models");
 require("dotenv").config();
@@ -15,8 +19,6 @@ const register = require("./routes/register/register.routes");
 
 const app = express();
 
-// global.__basedir = __dirname;
-
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -25,20 +27,9 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, "public")));
-
-// const corsOptions = {
-//   origin: "*",
-//   optionsSuccessStatus: 200,
-// };
-
 app.use(cors());
 
 db.sequelize.sync({ alter: true });
-
-// db.sequelize.sync({ force: true }).then(() => {
-//   console.log("Drop and re-sync db.");
-// });
 
 app.use("/api", api);
 app.use("/login", login);
@@ -48,9 +39,7 @@ app.get("/checkToken", withAuth.checkToken);
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
-  // Set static folder
   app.use(express.static("client/build"));
-
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
@@ -63,13 +52,76 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // render the error page
   res.status(err.status || 500);
   res.render("error");
 });
+
+/**
+ * Get port from environment and store in Express.
+ */
+const port = normalizePort(process.env.PORT || "3001");
+app.set("port", port);
+
+/**
+ * Create HTTP server.
+ */
+const server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+server.listen(port);
+server.on("error", onError);
+server.on("listening", onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+function normalizePort(val) {
+  const port = parseInt(val, 10);
+  if (isNaN(port)) {
+    return val; // named pipe
+  }
+  if (port >= 0) {
+    return port; // port number
+  }
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+function onError(error) {
+  if (error.syscall !== "listen") {
+    throw error;
+  }
+
+  const bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case "EACCES":
+      console.error(bind + " requires elevated privileges");
+      process.exit(1);
+      break;
+    case "EADDRINUSE":
+      console.error(bind + " is already in use");
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+function onListening() {
+  const addr = server.address();
+  const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+  debug("Listening on " + bind);
+}
 
 module.exports = app;
