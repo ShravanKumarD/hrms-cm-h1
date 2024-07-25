@@ -10,6 +10,9 @@ import MaterialTable from "material-table";
 import { ThemeProvider } from "@material-ui/core";
 import { createTheme } from "@material-ui/core/styles";
 import AlertModal from "./AlertModal";
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
+
 
 export default class SalaryDetails extends Component {
   constructor(props) {
@@ -68,7 +71,25 @@ export default class SalaryDetails extends Component {
         console.log(err);
       });
   }
-
+  onView = (rowData) => () => {
+    this.setState({ viewRedirect: true, selectedUser: rowData.user });
+  };
+  onEdit = (rowData) => () => {
+    this.setState({ editRedirect: true, selectedUser: rowData.user });
+  };
+  exportToPDF = () => {
+    const input = document.getElementById('tableContainer');
+    html2canvas(input)
+      .then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+        pdf.addImage(imgData, 'PNG', 10, 10);
+        pdf.save('employee_salaries.pdf');
+      })
+      .catch((error) => {
+        console.error('Error generating PDF', error);
+      });
+  };
   pushChanges = () => {
     axios.defaults.baseURL = "http://localhost:80";
     axios({

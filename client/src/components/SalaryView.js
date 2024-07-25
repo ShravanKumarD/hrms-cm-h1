@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { Card, Row, Col, Form } from "react-bootstrap";
+import { Card, Row, Col, Form,Button } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 
 export default class SalaryView extends Component {
   constructor(props) {
@@ -18,18 +20,18 @@ export default class SalaryView extends Component {
 
   componentDidMount() {
     if (this.props.location.state) {
-      console.log(this.props.location.state);
+      console.log(this.props.location.state.selectedUser.id, "props");
       axios.defaults.baseURL = "http://localhost:80";
       axios({
         method: "get",
-        url: "api/users/" + this.props.location.state.selectedUser.user.id,
+        url: "api/users/" + this.props.location.state.selectedUser.id,
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       })
         .then((res) => {
           console.log(res);
           this.setState({ user: res.data }, () => {
             if (this.state.user.jobs) {
-              this.state.user.jobs.map((job) => {
+              this.state.user.jobs.forEach((job) => {
                 if (
                   new Date(job.startDate).setHours(0) < new Date() &&
                   new Date(job.endDate).setHours(24) > new Date()
@@ -47,11 +49,26 @@ export default class SalaryView extends Component {
       this.setState({ falseRedirect: true });
     }
   }
-
   onEdit = () => {
     this.setState({ editRedirect: true });
   };
 
+  onView = (rowData) => () => {
+    this.setState({ viewRedirect: true, selectedUser: rowData.user });
+  };
+  exportToPDF = () => {
+    const input = document.getElementById('tableContainer');
+    html2canvas(input)
+      .then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+        pdf.addImage(imgData, 'PNG', 10, 10);
+        pdf.save('employee_salaries.pdf');
+      })
+      .catch((error) => {
+        console.error('Error generating PDF', error);
+      });
+  };
   render() {
     return (
       <div className="container-fluid pt-3">
@@ -67,6 +84,7 @@ export default class SalaryView extends Component {
         {this.state.user ? (
           <Row>
             <Col sm={12}>
+            <div  id="tableContainer">
               <Card>
                 <Card.Header
                   style={{
@@ -74,14 +92,18 @@ export default class SalaryView extends Component {
                     color: "white",
                     fontSize: "17px",
                   }}
-                >
+                    >
                   Employee Salary Detail{" "}
                   <Form className="float-right">
+                  <Button variant="primary" onClick={this.exportToPDF}>
+                Export to PDF
+              </Button>
                     <span style={{ cursor: "pointer" }} onClick={this.onEdit}>
                       <i className="far fa-edit"></i> Edit
                     </span>
                   </Form>
                 </Card.Header>
+                
                 <Card.Body>
                   <Card.Title>
                     <strong>{this.state.user.fullName}</strong>
@@ -99,11 +121,11 @@ export default class SalaryView extends Component {
                           <div className="emp-view-list">
                             <ul>
                               <li>
-                                <span>Employee ID: </span> {this.state.user.id}
+                                <span>Employee ID: </span> {this.state.id}
                               </li>
                               <li>
                                 <span>Department: </span>{" "}
-                                {this.state.user.department.departmentName}
+                                {this.state.department}
                               </li>
                               <li>
                                 <span>Job Title: </span>{" "}
@@ -343,7 +365,9 @@ export default class SalaryView extends Component {
                     </Col>
                   </div>
                 </Card.Body>
+                
               </Card>
+           </div>
             </Col>
           </Row>
         ) : null}
