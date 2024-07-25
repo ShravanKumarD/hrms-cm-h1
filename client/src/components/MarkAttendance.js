@@ -6,6 +6,8 @@ const MarkAttendance = () => {
   const [userId, setUserId] = useState("");
   const [date, setDate] = useState("");
   const [status, setStatus] = useState("Present");
+  const [clockInTime, setClockInTime] = useState("");
+  const [clockOutTime, setClockOutTime] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,14 +53,39 @@ const MarkAttendance = () => {
             required
           />
         </div>
+
         <div>
           <label>Status:</label>
-          
+
           <select value={status} onChange={(e) => setStatus(e.target.value)}>
-            <option value="Present">Present</option>
             <option value="Absent">Absent</option>
+            <option value="Present">Present</option>
           </select>
         </div>
+
+        {status === "Present" && (
+          <>
+            <div>
+              <label>Clock In Time:</label>
+              <input
+                type="time"
+                value={clockInTime}
+                onChange={(e) => setClockInTime(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label>Clock Out Time:</label>
+              <input
+                type="time"
+                value={clockOutTime}
+                onChange={(e) => setClockOutTime(e.target.value)}
+                required
+              />
+            </div>
+          </>
+        )}
+
         <button type="submit">Mark Attendance</button>
       </form>
     </div>

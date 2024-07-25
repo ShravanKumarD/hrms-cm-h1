@@ -212,6 +212,12 @@ export default class SidebarAdmin extends Component {
                       <p>Attendance List</p>
                     </NavLink>
                   </li>
+                  <li className="nav-item">
+                    <NavLink to="/attendance/timesheet" className="nav-link">
+                      <i className="fas fa-calendar-alt nav-icon" />
+                      <p>Timesheet</p>
+                    </NavLink>
+                  </li>
                 </ul>
               </li>
               <li className="nav-item">
