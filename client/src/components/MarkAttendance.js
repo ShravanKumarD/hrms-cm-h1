@@ -16,6 +16,9 @@ const MarkAttendance = () => {
           userId,
           date,
           status,
+        },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
       console.log(response.data);
@@ -50,6 +53,7 @@ const MarkAttendance = () => {
         </div>
         <div>
           <label>Status:</label>
+          
           <select value={status} onChange={(e) => setStatus(e.target.value)}>
             <option value="Present">Present</option>
             <option value="Absent">Absent</option>
