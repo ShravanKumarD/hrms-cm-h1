@@ -6,8 +6,10 @@ const MarkAttendance = () => {
   const [userId, setUserId] = useState("");
   const [date, setDate] = useState("");
   const [status, setStatus] = useState("Present");
-  const [clockInTime, setClockInTime] = useState("");
-  const [clockOutTime, setClockOutTime] = useState("");
+  const [clockinTime, setClockInTime] = useState("");
+  const [clockoutTime, setClockOutTime] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,6 +20,10 @@ const MarkAttendance = () => {
           userId,
           date,
           status,
+          clockinTime: status === "Present" ? clockinTime : null,
+          clockoutTime: status === "Present" ? clockoutTime : null,
+          latitude: status === "Present" ? latitude : null,
+          longitude: status === "Present" ? longitude : null,
         },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -53,23 +59,21 @@ const MarkAttendance = () => {
             required
           />
         </div>
-
         <div>
           <label>Status:</label>
-
           <select value={status} onChange={(e) => setStatus(e.target.value)}>
             <option value="Absent">Absent</option>
             <option value="Present">Present</option>
+            <option value="Leave">Leave</option>
           </select>
         </div>
-
         {status === "Present" && (
           <>
             <div>
               <label>Clock In Time:</label>
               <input
                 type="time"
-                value={clockInTime}
+                value={clockinTime}
                 onChange={(e) => setClockInTime(e.target.value)}
                 required
               />
@@ -78,14 +82,33 @@ const MarkAttendance = () => {
               <label>Clock Out Time:</label>
               <input
                 type="time"
-                value={clockOutTime}
+                value={clockoutTime}
                 onChange={(e) => setClockOutTime(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label>Latitude:</label>
+              <input
+                type="number"
+                step="any"
+                value={latitude}
+                onChange={(e) => setLatitude(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label>Longitude:</label>
+              <input
+                type="number"
+                step="any"
+                value={longitude}
+                onChange={(e) => setLongitude(e.target.value)}
                 required
               />
             </div>
           </>
         )}
-
         <button type="submit">Mark Attendance</button>
       </form>
     </div>

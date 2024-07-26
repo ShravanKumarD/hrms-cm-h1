@@ -19,13 +19,21 @@ module.exports = (sequelize, Sequelize) => {
         values: ["Present", "Absent", "Leave"],
         allowNull: false,
       },
-      loginTime: {
-        type: Sequelize.DATE,
+      clockinTime: {
+        type: Sequelize.TIME,
         allowNull: true, // Allow null in case the user hasn't logged in yet
       },
-      logoutTime: {
-        type: Sequelize.DATE,
+      clockoutTime: {
+        type: Sequelize.TIME,
         allowNull: true, // Allow null in case the user hasn't logged out yet
+      },
+      latitude: {
+        type: Sequelize.FLOAT,
+        allowNull: true, // Allow null if location is not provided
+      },
+      longitude: {
+        type: Sequelize.FLOAT,
+        allowNull: true, // Allow null if location is not provided
       },
     },
     {

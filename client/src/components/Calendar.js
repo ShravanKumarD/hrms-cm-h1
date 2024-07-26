@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-
+import React, { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -9,77 +8,49 @@ import moment from "moment";
 import ReactToolTip from "react-tooltip";
 import ShowEventPopup from "./ShowEventPopup";
 
-export default class Calendar extends Component {
-  _isMounted = false;
+const Calendar = () => {
+  const [user, setUser] = useState({});
+  const [events, setEvents] = useState([]);
+  const [showAddModel, setShowAddModel] = useState(false);
+  const [showModel, setShowModel] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState({});
 
-  constructor(props) {
-    super(props);
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("user"));
+    setUser(userData);
 
-    this.state = {
-      user: {},
-      events: [],
-      showAddModel: false,
-      showModel: false,
-      selectedEvent: {},
-    };
+    axios.defaults.baseURL = "http://localhost:80";
+    axios({
+      method: "get",
+      url: `api/personalEvents/user/${userData.id}`,
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    }).then((res) => {
+      let newEvents = res.data.map((x) => ({
+        title: x.eventTitle,
+        description: x.eventDescription,
+        start: moment(x.eventStartDate).format("YYYY-MM-DD HH:mm:ss"),
+        end: moment(x.eventEndDate).format("YYYY-MM-DD HH:mm:ss"),
+        id: x.id,
+        color: "#007bff",
+        textColor: "white",
+      }));
 
-    this.handleEventClick = this.handleEventClick.bind(this);
-  }
-
-  componentDidMount() {
-    this._isMounted = true;
-
-    if (this._isMounted) {
-      this.setState({ user: JSON.parse(localStorage.getItem("user")) }, () => {
-        axios.defaults.baseURL = "http://localhost:80";
-        axios({
-          method: "get",
-          url: `api/personalEvents/user/${this.state.user.id}`,
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }).then((res) => {
-          let newEvents = res.data.map((x) => ({
-            title: x.eventTitle,
-            description: x.eventDescription,
-            start: x.eventStartDate,
-            end: x.eventEndDate,
-            id: x.id,
-            color: "#007bff",
-            textColor: "white",
-          }));
-
-          for (var i in newEvents) {
-            newEvents[i].start = moment(newEvents[i].start).format(
-              "YYYY-MM-DD HH:mm:ss"
-            );
-            newEvents[i].end = moment(newEvents[i].end).format(
-              "YYYY-MM-DD HH:mm:ss"
-            );
-          }
-
-          this.setState({ events: [...newEvents] });
-        });
-      });
-    }
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-
-  handleEventClick(info) {
-    this.setState({
-      selectedEvent: {
-        id: info.event.id,
-        title: info.event.title,
-        description: info.event.extendedProps.description,
-        start: info.event.start,
-        end: info.event.end,
-      },
-      showModel: true,
+      setEvents(newEvents);
     });
-  }
+  }, []);
 
-  handleEventPositioned(info) {
+  const handleEventClick = (info) => {
+    setSelectedEvent({
+      id: info.event.id,
+      title: info.event.title,
+      description: info.event.extendedProps.description,
+      start: info.event.start,
+      end: info.event.end,
+    });
+    setShowModel(true);
+  };
+
+  const handleEventPositioned = (info) => {
     info.el.setAttribute(
       "title",
       info.event.extendedProps.description
@@ -87,52 +58,50 @@ export default class Calendar extends Component {
         : "No description"
     );
     ReactToolTip.rebuild();
-  }
+  };
 
-  render() {
-    let closeAddModel = () => this.setState({ showAddModel: false });
-    let closeShowModel = () => this.setState({ showModel: false });
+  const closeAddModel = () => setShowAddModel(false);
+  const closeShowModel = () => setShowModel(false);
 
-    return (
-      <>
-        <FullCalendar
-          defaultView="dayGridMonth"
-          plugins={[dayGridPlugin, interactionPlugin]}
-          eventClick={this.handleEventClick}
-          dateClick={() => this.setState({ showAddModel: true })}
-          events={this.state.events}
-          eventPositioned={this.handleEventPositioned}
-          eventTimeFormat={{
-            hour: "2-digit",
-            minute: "2-digit",
-            meridiem: false,
-            hour12: false,
-          }}
-          customButtons={{
-            button: {
-              text: "Add Event",
-              click: () => {
-                this.setState({ showAddModel: true });
-              },
+  return (
+    <>
+      <FullCalendar
+        defaultView="dayGridMonth"
+        plugins={[dayGridPlugin, interactionPlugin]}
+        eventClick={handleEventClick}
+        dateClick={() => setShowAddModel(true)}
+        events={events}
+        eventPositioned={handleEventPositioned}
+        eventTimeFormat={{
+          hour: "2-digit",
+          minute: "2-digit",
+          meridiem: false,
+          hour12: false,
+        }}
+        customButtons={{
+          button: {
+            text: "Add Event",
+            click: () => {
+              setShowAddModel(true);
             },
-          }}
-          header={{
-            left: "prev,next today button",
-            center: "title",
-            right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
-          }}
+          },
+        }}
+        header={{
+          left: "prev,next today button",
+          center: "title",
+          right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+        }}
+      />
+      <AddEventPopup show={showAddModel} onHide={closeAddModel} />
+      {showModel && (
+        <ShowEventPopup
+          show={true}
+          onHide={closeShowModel}
+          data={selectedEvent}
         />
-        <AddEventPopup show={this.state.showAddModel} onHide={closeAddModel} />
-        {this.state.showModel ? (
-          <ShowEventPopup
-            show={true}
-            onHide={closeShowModel}
-            data={this.state.selectedEvent}
-          />
-        ) : (
-          <></>
-        )}
-      </>
-    );
-  }
-}
+      )}
+    </>
+  );
+};
+
+export default Calendar;

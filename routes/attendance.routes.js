@@ -3,6 +3,7 @@ const router = express.Router();
 const attendanceController = require("../controllers/attendance.controller.js");
 const withAuth = require("../withAuth");
 
+
 // Create and Save a new Attendance record
 router.post("/mark", withAuth.verifyToken, attendanceController.markAttendance);
 

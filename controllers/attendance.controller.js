@@ -7,8 +7,24 @@ const moment = require("moment");
 // Create and Save a new Attendance record
 exports.markAttendance = async (req, res) => {
   try {
-    const { userId, date, status } = req.body;
-    const attendance = await Attendance.create({ userId, date, status });
+    const {
+      userId,
+      date,
+      status,
+      clockinTime,
+      clockoutTime,
+      latitude,
+      longitude,
+    } = req.body;
+    const attendance = await Attendance.create({
+      userId,
+      date,
+      status,
+      clockinTime,
+      clockoutTime,
+      latitude,
+      longitude,
+    });
     res.status(201).json(attendance);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -146,11 +162,9 @@ exports.update = async (req, res) => {
     if (num == 1) {
       res.status(200).json({ message: "Attendance was updated successfully." });
     } else {
-      res
-        .status(400)
-        .json({
-          message: `Cannot update Attendance with id=${id}. Maybe Attendance was not found or req.body is empty!`,
-        });
+      res.status(400).json({
+        message: `Cannot update Attendance with id=${id}. Maybe Attendance was not found or req.body is empty!`,
+      });
     }
   } catch (error) {
     res.status(500).json({ error: `Error updating Attendance with id=${id}` });
@@ -165,11 +179,9 @@ exports.delete = async (req, res) => {
     if (num == 1) {
       res.status(200).json({ message: "Attendance was deleted successfully!" });
     } else {
-      res
-        .status(400)
-        .json({
-          message: `Cannot delete Attendance with id=${id}. Maybe Attendance was not found!`,
-        });
+      res.status(400).json({
+        message: `Cannot delete Attendance with id=${id}. Maybe Attendance was not found!`,
+      });
     }
   } catch (error) {
     res

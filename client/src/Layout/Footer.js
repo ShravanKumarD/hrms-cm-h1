@@ -5,8 +5,8 @@ export default class Footer extends Component {
     return (
       <footer className="main-footer">
         <strong className="mr-1">
-          Copyright © 2023-2024 <a href="https://creditmitra.in">CreditMitra</a>
-          .
+          Copyright © 2023-2024{" "}
+          <a href="https://samcintsolutions.in/">Samcint Solutions</a>.
         </strong>
         All rights reserved.
         <div className="float-right d-none d-sm-inline-block">

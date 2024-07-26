@@ -74,7 +74,7 @@ export default class Login extends Component {
           <a href="/">
             {this.state.done ? <Redirect to="/" /> : <></>}
             <b>HR</b>MS{" "}
-            <small style={{ fontSize: "10px" }}>by Team CreditMitra</small>
+            <small style={{ fontSize: "10px" }}>by Samcint Solutions</small>
           </a>
         </div>
         <div className="card">
@@ -146,7 +146,7 @@ export default class Login extends Component {
               Don't have an account? Register
             </a>
             <hr className="mt-3" />
-            <p className="mb-0">by TeamCM</p>
+            <p className="mb-0">by Samcint Solutions</p>
           </div>
           {/* /.form-box */}
         </div>

@@ -83,7 +83,7 @@ export default class Register extends Component {
         <div className="register-logo">
           <a href="../../index2.html">
             <b>HR</b>MS{" "}
-            <small style={{ fontSize: "10px" }}>by Mantzaris Vasileios</small>
+            <small style={{ fontSize: "10px" }}>by Samcint Solutions</small>
           </a>
         </div>
         <div className="card">
@@ -207,7 +207,7 @@ export default class Register extends Component {
               Already have an account? Login
             </a>
             <hr className="mt-3" />
-            <p className="mb-0">by Mantzaris Vasileios</p>
+            <p className="mb-0">by Samcint Solutions</p>
           </div>
           {/* /.form-box */}
         </div>
