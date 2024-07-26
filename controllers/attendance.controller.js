@@ -12,18 +12,22 @@ exports.markAttendance = async (req, res) => {
       date,
       status,
       clockinTime,
+      latitudeClockin,
+      longitudeClockin,
       clockoutTime,
-      latitude,
-      longitude,
+      latitudeClockout,
+      longitudeClockout,
     } = req.body;
     const attendance = await Attendance.create({
       userId,
       date,
       status,
       clockinTime,
+      latitudeClockin,
+      longitudeClockin,
       clockoutTime,
-      latitude,
-      longitude,
+      latitudeClockout,
+      longitudeClockout,
     });
     res.status(201).json(attendance);
   } catch (error) {

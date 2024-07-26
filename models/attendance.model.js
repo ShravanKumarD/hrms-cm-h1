@@ -21,19 +21,27 @@ module.exports = (sequelize, Sequelize) => {
       },
       clockinTime: {
         type: Sequelize.TIME,
-        allowNull: true, // Allow null in case the user hasn't logged in yet
+        allowNull: true,
+      },
+      latitudeClockin: {
+        type: Sequelize.FLOAT,
+        allowNull: true,
+      },
+      longitudeClockin: {
+        type: Sequelize.FLOAT,
+        allowNull: true,
       },
       clockoutTime: {
         type: Sequelize.TIME,
-        allowNull: true, // Allow null in case the user hasn't logged out yet
+        allowNull: true,
       },
-      latitude: {
+      latitudeClockout: {
         type: Sequelize.FLOAT,
-        allowNull: true, // Allow null if location is not provided
+        allowNull: true,
       },
-      longitude: {
+      longitudeClockout: {
         type: Sequelize.FLOAT,
-        allowNull: true, // Allow null if location is not provided
+        allowNull: true,
       },
     },
     {
