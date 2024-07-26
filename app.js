@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
 
-db.sequelize.sync({ alter: true });
+db.sequelize.sync();
 
 app.use("/api", api);
 app.use("/login", login);

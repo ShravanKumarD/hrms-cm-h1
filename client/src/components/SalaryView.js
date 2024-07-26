@@ -58,17 +58,30 @@ export default class SalaryView extends Component {
   };
   exportToPDF = () => {
     const input = document.getElementById('tableContainer');
-    html2canvas(input)
-      .then((canvas) => {
+    setTimeout(() => {
+      html2canvas(input, {
+        scrollY: -window.scrollY,
+        scale: 2, 
+      }).then((canvas) => {
         const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF();
-        pdf.addImage(imgData, 'PNG', 10, 10);
+        const pdf = new jsPDF({
+          orientation: 'p',
+          unit: 'mm',
+          format: [canvas.width, canvas.height]
+        });
+        const imgWidth = pdf.internal.pageSize.getWidth();
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
         pdf.save('employee_salaries.pdf');
-      })
-      .catch((error) => {
+      }).catch((error) => {
         console.error('Error generating PDF', error);
       });
+    }, 500); 
   };
+  
+  
+
+
   render() {
     return (
       <div className="container-fluid pt-3">
@@ -105,9 +118,11 @@ export default class SalaryView extends Component {
                 </Card.Header>
                 
                 <Card.Body>
-                  <Card.Title>
-                    <strong>{this.state.user.fullName}</strong>
-                  </Card.Title>
+                  <Card.Header><strong>Samcint solutions pvt. ltd.</strong></Card.Header>
+                  <br/>
+                    <Card.Title>
+                      <strong>{this.state.user.fullName}</strong>
+                    </Card.Title>
                   <div>
                     <Col lg={12}>
                       <Row className="pt-4">

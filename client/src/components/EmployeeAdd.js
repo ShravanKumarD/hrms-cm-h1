@@ -40,6 +40,8 @@ export default class EmployeeAdd extends Component {
       hasError: false,
       errMsg: "",
       completed: false,
+      uploadStatus: "",
+      file: null,
     };
   }
 
@@ -140,6 +142,7 @@ export default class EmployeeAdd extends Component {
                   startDate: this.state.startDate,
                   endDate: this.state.endDate,
                   userId: userId,
+                  file:this.state.file,
                 };
                 axios.defaults.baseURL = "http://localhost:80";
                 axios({
@@ -195,7 +198,33 @@ export default class EmployeeAdd extends Component {
     });
     return items;
   };
+  handleFileChange = (event) => {
+    this.setState({ file: event.target.files[0] });
+  };
 
+  handleUpload = async (event) => {
+    event.preventDefault();
+    if (!this.state.file) {
+      this.setState({ uploadStatus: "No file selected" });
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", this.state.file);
+
+    try {
+      const response = await axios.post("/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      this.setState({
+        uploadStatus: `File uploaded successfully: ${response.data.filePath}`,
+      });
+    } catch (error) {
+      this.setState({ uploadStatus: "File upload failed" });
+    }
+  };
   render() {
     return (
       <Form onSubmit={this.onSubmit}>
@@ -553,9 +582,6 @@ export default class EmployeeAdd extends Component {
                       </div>
                     </Card.Body>
                   </Card>
-                  <Button variant="primary" type="submit" block>
-                    Submit
-                  </Button>
                 </div>
               </div>
               <div className="row">
@@ -620,6 +646,20 @@ export default class EmployeeAdd extends Component {
                       </div>
                     </Card.Body>
                   </Card>
+                </div>
+                <div className="col-sm-6">
+                  <Card className="secondary-card">
+                    <Card.Header>Upload Resume</Card.Header>
+                    <Card.Body>
+                    <Form.Group controlId="formFile">
+                <Form.Label className="text-muted required">Upload File</Form.Label>
+                <Form.Control type="file" name="file" onChange={this.handleFileChange} required />
+              </Form.Group>
+                    </Card.Body>
+                  </Card>
+                  <Button variant="primary" type="submit" block>
+                    Submit
+                  </Button>
                 </div>
               </div>
             </Card.Body>
