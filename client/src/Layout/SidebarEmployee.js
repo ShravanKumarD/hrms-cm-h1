@@ -23,7 +23,7 @@ export default class SidebarEmployee extends Component {
       <aside className="main-sidebar sidebar-dark-primary elevation-4" >
         {/* Brand Logo */}
         <a href="/" className="brand-link">
-          <span className="brand-text font-weight-light ml-1">HRMS Employee</span>
+          <span className="brand-text font-weight-light ml-1">Samcint Employee</span>
         </a>
         {/* Sidebar */}
         <div className="sidebar">
@@ -60,6 +60,45 @@ export default class SidebarEmployee extends Component {
                     <span className="right badge badge-success">Home</span>
                   </p>
                 </NavLink>
+              </li>
+              <li className="nav-item has-treeview">
+                <NavLink
+                  to="/fake-url"
+                  className="nav-link"
+                  activeClassName="nav-link"
+                >
+                  <i className="nav-icon fas fa-calendar-check" />
+                  <p>
+                    Attendance Management
+                    <i className="right fas fa-angle-left" />
+                  </p>
+                </NavLink>
+                <ul className="nav nav-treeview">
+                  <li className="nav-item">
+                    <NavLink to="/attendance/timesheet" className="nav-link">
+                      <i className="fas fa-calendar-alt nav-icon" />
+                      <p>Timesheet</p>
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to="/attendance/mark" className="nav-link">
+                      <i className="fas fa-check-circle nav-icon" />
+                      <p>Mark Attendance</p>
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to="/attendance/startwork" className="nav-link">
+                      <i className="fas fa-briefcase nav-icon" />
+                      <p>Start Work</p>
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to="/attendance/list" className="nav-link">
+                      <i className="fas fa-list nav-icon" />
+                      <p>Attendance List</p>
+                    </NavLink>
+                  </li>
+                </ul>
               </li>
               <li className="nav-item">
                 <NavLink exact to="/salary-view" className="nav-link">

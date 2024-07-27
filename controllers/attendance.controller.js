@@ -40,14 +40,11 @@ exports.markAttendanceClockIn=async(req,res)=>{
     const {
       userId,
       date,
-      status,
       clockinTime,
       latitudeClockin,
       longitudeClockin,
-      clockoutTime,
-      latitudeClockout,
-      longitudeClockout,
     } = req.body;
+
     const attendance = await Attendance.create({
       userId,
       date,

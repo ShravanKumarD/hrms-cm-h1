@@ -42,7 +42,8 @@ import Register from "./components/Register";
 import withAuth from "./withAuth";
 import Login from "./components/Login";
 import JobList from "./components/JobList";
-import JobListManager from './components/manager/JobList'
+import JobListManager from './components/manager/JobList';
+import "./App.css"
 
 export default class App extends Component {
   render() {
@@ -136,6 +137,9 @@ const ManagerContainer = () => (
         <Route exact path="/salary-view" component={withAuth(SalaryViewManager)} />
         <Route exact path="/expense-report" component={withAuth(ExpenseReportManager)} />
         <Route exact path="/announcement" component={withAuth(AnnouncementManager)} />
+        <Route exact path="/attendance/startwork" component={withAuth(StartWork)} />
+        <Route exact path="/attendance/list" component={withAuth(AttendanceList)} />
+        <Route exact path="/attendance/timesheet" component={withAuth(Timesheet)} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
       </Switch>
@@ -156,6 +160,9 @@ const EmployeeContainer = () => (
         <Route exact path="/application" component={withAuth(Application)} />
         <Route exact path="/salary-view" component={withAuth(SalaryViewEmployee)} />
         <Route exact path="/announcement" component={withAuth(AnnouncementEmployee)} />
+        <Route exact path="/attendance/startwork" component={withAuth(StartWork)} />
+        <Route exact path="/attendance/list" component={withAuth(AttendanceList)} />
+        <Route exact path="/attendance/timesheet" component={withAuth(Timesheet)} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
       </Switch>

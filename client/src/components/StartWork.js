@@ -46,19 +46,20 @@ const StartWork = () => {
 
   const handleStart = async () => {
     const start = new Date();
+    console.log(start)
+    const timeZoneOffset = start.getTimezoneOffset();
     setStartTime(start);
     setIsStarted(true);
-console.log(userId  ,"start.toISOString()")
     try {
       const response = await axios.post(
-        "http://localhost:80/api/attendance/mark",
+        "http://localhost:80/api/attendance/clock-in",
         {
           userId:userId,
           date,
           status,
-          clockinTime: start.toISOString(),
-          latitude,
-          longitude,
+          clockinTime: timeZoneOffset,
+          latitudeClockin:latitude,
+          longitudeClockin:longitude,
         },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -80,12 +81,18 @@ let x = localStorage.getItem("userId")
 console.log(userId,"aatid")
     try {
       const response = await axios.put(
-        `http://localhost:80/api/attendance/update/${userId}`,
+        `http://localhost:80/api/attendance/clock-out`,
         {
+          userId,
+          date,
           clockoutTime: end.toISOString(),
+          latitudeClockout:latitude,
+          longitudeClockout:longitude
         },
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          headers: {
+             Authorization: `Bearer ${localStorage.getItem("token")}` 
+            },
         }
       );
       console.log(response,"res");
@@ -95,30 +102,62 @@ console.log(userId,"aatid")
   };
 
   return (
-    <div>
-      <h2>Start Work</h2>
-      <div>
-        <h3>Current Time: {currentTime.toLocaleTimeString()}</h3>
+    // <div>
+    //   <h2>Start Work</h2>
+    //   <div>
+    //     <h3>Current Time: {currentTime.toLocaleTimeString()}</h3>
+    //   </div>
+    //   <div>
+    //     {!isStarted ? (
+    //       <button onClick={handleStart}>Start Work</button>
+    //     ) : (
+    //       <button onClick={handleEnd}>End Work</button>
+    //     )}
+    //   </div>
+    //   {startTime && (
+    //     <div>
+    //       <h4>Work started at: {startTime.toLocaleTimeString()}</h4>
+    //     </div>
+    //   )}
+    //   {endTime && (
+    //     <div>
+    //       <h4>Work ended at: {endTime.toLocaleTimeString()}</h4>
+    //     </div>
+    //   )}
+    //   <Timeline isStarted={isStarted} startTime={startTime} />
+    // </div>
+    <div className="container my-5">
+    <div className="card p-4 shadow-lg">
+      <h2 className="text-center mb-4">Start Work</h2>
+      <div className="text-center mb-4">
+        <h3 className="display-4 animate__animated animate__pulse animate__infinite">
+          Current Time: {currentTime.toLocaleTimeString()}
+        </h3>
       </div>
-      <div>
+      <div className="text-center mb-4">
         {!isStarted ? (
-          <button onClick={handleStart}>Start Work</button>
+          <button className="btn btn-success btn-lg animate__animated animate__fadeIn" onClick={handleStart}>
+            Start Work
+          </button>
         ) : (
-          <button onClick={handleEnd}>End Work</button>
+          <button className="btn btn-danger btn-lg animate__animated animate__fadeIn" onClick={handleEnd}>
+            End Work
+          </button>
         )}
       </div>
       {startTime && (
-        <div>
-          <h4>Work started at: {startTime.toLocaleTimeString()}</h4>
+        <div className="text-center mb-4">
+          <h4 className="animate__animated animate__fadeInUp">Work started at: {startTime.toLocaleTimeString()}</h4>
         </div>
       )}
       {endTime && (
-        <div>
-          <h4>Work ended at: {endTime.toLocaleTimeString()}</h4>
+        <div className="text-center mb-4">
+          <h4 className="animate__animated animate__fadeInUp">Work ended at: {endTime.toLocaleTimeString()}</h4>
         </div>
       )}
-      <Timeline isStarted={isStarted} startTime={startTime} />
     </div>
+    <Timeline isStarted={isStarted} startTime={startTime} />
+  </div>
   );
 };
 
@@ -146,26 +185,43 @@ const Timeline = ({ isStarted, startTime }) => {
   }, [isStarted, startTime]);
 
   return (
-    <div style={{ marginTop: "20px" }}>
+    // <div style={{ marginTop: "20px" }}>
+    //   <div
+    //     style={{
+    //       width: "80%",
+    //       height: "30px",
+    //       backgroundColor: "#ddd",
+    //     }}
+    //   >
+    //     <div
+    //       style={{
+    //         width: `${progress}%`,
+    //         height: "100%",
+    //         backgroundColor: progress === 100 ? "green" : "orange",
+    //       }}
+    //     ></div>
+    //   </div>
+    //   <div style={{ textAlign: "center", marginTop: "10px" }}>
+    //     {progress === 100 ? "Full Day" : `${Math.floor(progress)}% Completed`}
+    //   </div>
+    // </div>
+    <div className="container mt-4">
+    <div className="progress" style={{ height: "25px", width: "80%", margin: "0 auto",borderRadius:"10px" }}>
       <div
-        style={{
-          width: "100%",
-          height: "30px",
-          backgroundColor: "#ddd",
-        }}
-      >
-        <div
-          style={{
-            width: `${progress}%`,
-            height: "100%",
-            backgroundColor: progress === 100 ? "green" : "orange",
-          }}
-        ></div>
-      </div>
-      <div style={{ textAlign: "center", marginTop: "10px" }}>
-        {progress === 100 ? "Full Day" : `${Math.floor(progress)}% Completed`}
-      </div>
+        className={`progress-bar progress-bar-striped ${progress === 100 ? 'bg-success' : 'bg-warning'}`}
+        role="progressbar"
+        style={{ width: `${progress}%` }}
+        aria-valuenow={progress}
+        aria-valuemin="0"
+        aria-valuemax="100"
+      ></div>
     </div>
+    <div className="text-center mt-3">
+      <h5 className={`animate__animated ${progress === 100 ? 'animate__bounceIn' : 'animate__fadeIn'}`}>
+        {progress === 100 ? "Full Day" : `${Math.floor(progress)}% Completed`}
+      </h5>
+    </div>
+  </div>
   );
 };
 
