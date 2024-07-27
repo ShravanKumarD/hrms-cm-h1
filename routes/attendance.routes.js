@@ -4,6 +4,8 @@ const attendanceController = require("../controllers/attendance.controller.js");
 const withAuth = require("../withAuth");
 
 
+router.put('/clock-out',withAuth.verifyToken,attendanceController.markAttendanceClockOut);
+
 // Create and Save a new Attendance record
 router.post("/mark", withAuth.verifyToken, attendanceController.markAttendance);
 
@@ -59,5 +61,7 @@ router.delete(
   withAuth.verifyToken,
   attendanceController.deleteAllByUserId
 );
+
+router.post('/clock-in',  withAuth.verifyToken,attendanceController.markAttendanceClockIn);
 
 module.exports = router;

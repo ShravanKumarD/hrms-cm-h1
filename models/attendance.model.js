@@ -20,7 +20,7 @@ module.exports = (sequelize, Sequelize) => {
         allowNull: false,
       },
       clockinTime: {
-        type: Sequelize.TIME,
+        type: Sequelize.STRING,
         allowNull: true,
       },
       latitudeClockin: {
@@ -32,7 +32,7 @@ module.exports = (sequelize, Sequelize) => {
         allowNull: true,
       },
       clockoutTime: {
-        type: Sequelize.TIME,
+        type: Sequelize.STRING,
         allowNull: true,
       },
       latitudeClockout: {

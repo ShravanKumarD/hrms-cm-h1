@@ -34,7 +34,94 @@ exports.markAttendance = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+ 
+exports.markAttendanceClockIn=async(req,res)=>{
+  try {
+    const {
+      userId,
+      date,
+      status,
+      clockinTime,
+      latitudeClockin,
+      longitudeClockin,
+      clockoutTime,
+      latitudeClockout,
+      longitudeClockout,
+    } = req.body;
+    const attendance = await Attendance.create({
+      userId,
+      date,
+      status:'Present',
+      clockinTime,
+      latitudeClockin,
+      longitudeClockin,
+      // clockoutTime,
+      // latitudeClockout,
+      // longitudeClockout,
+    });
+    res.status(201).json(attendance);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
 
+exports.markAttendanceClockOut=async(req,res)=>{
+  console.log(req.body,"uuuuu")
+  try {
+    const {
+      userId,
+      date,
+      clockoutTime,
+      latitudeClockout,
+      longitudeClockout,
+    } = req.body;
+    const attendance = await Attendance.update({
+      userId,
+      date,
+      clockoutTime,
+      latitudeClockout,
+      longitudeClockout,
+    },{
+  where:{
+    userId:userId,
+    latitudeClockout:null,
+  }
+  });
+    res.status(201).json(attendance);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+exports.markAttendance = async (req, res) => {
+  try {
+    const {
+      userId,
+      date,
+      status,
+      clockinTime,
+      latitudeClockin,
+      longitudeClockin,
+      clockoutTime,
+      latitudeClockout,
+      longitudeClockout,
+    } = req.body;
+    const attendance = await Attendance.create({
+      userId,
+      date,
+      status,
+      clockinTime,
+      latitudeClockin,
+      longitudeClockin,
+      clockoutTime,
+      latitudeClockout,
+      longitudeClockout,
+    });
+    res.status(201).json(attendance);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 // Retrieve all Attendance records
 exports.findAll = async (req, res) => {
   try {

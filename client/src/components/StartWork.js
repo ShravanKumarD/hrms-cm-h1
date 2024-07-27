@@ -8,7 +8,7 @@ const StartWork = () => {
   const [isStarted, setIsStarted] = useState(false);
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
-  const [userId, setUserId] = useState(localStorage.getItem("userId") || "");
+  const [userId, setUserId] = useState(JSON.parse(localStorage.getItem("user")).id || "");
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [status, setStatus] = useState("Present");
 
@@ -48,12 +48,12 @@ const StartWork = () => {
     const start = new Date();
     setStartTime(start);
     setIsStarted(true);
-
+console.log(userId  ,"start.toISOString()")
     try {
       const response = await axios.post(
         "http://localhost:80/api/attendance/mark",
         {
-          userId,
+          userId:userId,
           date,
           status,
           clockinTime: start.toISOString(),
@@ -64,7 +64,7 @@ const StartWork = () => {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      console.log(response.data);
+      console.log(response,"dwgydgweu");
       localStorage.setItem("attendanceId", response.data.attendanceId); // Assuming the response contains the attendanceId
     } catch (error) {
       console.error("There was an error marking the start time!", error);
@@ -76,11 +76,11 @@ const StartWork = () => {
     setEndTime(end);
     setIsStarted(false);
 
+let x = localStorage.getItem("userId")
+console.log(userId,"aatid")
     try {
       const response = await axios.put(
-        `http://localhost:80/api/attendance/update/${localStorage.getItem(
-          "attendanceId"
-        )}`,
+        `http://localhost:80/api/attendance/update/${userId}`,
         {
           clockoutTime: end.toISOString(),
         },
@@ -88,7 +88,7 @@ const StartWork = () => {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      console.log(response.data);
+      console.log(response,"res");
     } catch (error) {
       console.error("There was an error marking the end time!", error);
     }
