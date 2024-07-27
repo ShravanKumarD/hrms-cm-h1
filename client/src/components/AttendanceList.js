@@ -21,29 +21,54 @@ const AttendanceList = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Attendance List</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>User ID</th>
-            <th>Date</th>
-            <th>Status</th>
+    // <div>
+    //   <h2>Attendance List</h2>
+    //   <table>
+    //     <thead>
+    //       <tr>
+    //         <th>ID</th>
+    //         <th>User ID</th>
+    //         <th>Date</th>
+    //         <th>Status</th>
+    //       </tr>
+    //     </thead>
+    //     <tbody>
+    //       {attendances.map((attendance) => (
+    //         <tr key={attendance.id}>
+    //           <td>{attendance.id}</td>
+    //           <td>{attendance.userId}</td>
+    //           <td>{attendance.date}</td>
+    //           <td>{attendance.status}</td>
+    //         </tr>
+    //       ))}
+    //     </tbody>
+    //   </table>
+    // </div>
+    <div className="container table-container">
+    <h2 className="my-4 text-center">Attendance List</h2>
+    <table className="table table-striped table-bordered">
+      <thead className="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>User ID</th>
+          <th>Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {attendances.map((attendance) => (
+          <tr key={attendance.id}>
+            <td>{attendance.id}</td>
+            <td>{attendance.userId}</td>
+            <td>{new Date(attendance.date).toLocaleDateString()}</td>
+            <td className={attendance.status === 'Present' ? 'attendance-status-present' : 'attendance-status-absent'}>
+              {attendance.status}
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          {attendances.map((attendance) => (
-            <tr key={attendance.id}>
-              <td>{attendance.id}</td>
-              <td>{attendance.userId}</td>
-              <td>{attendance.date}</td>
-              <td>{attendance.status}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+        ))}
+      </tbody>
+    </table>
+  </div>
   );
 };
 
