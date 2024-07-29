@@ -27,8 +27,7 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(cors());
-app.use(cors({ origin: 'http://hrmssamcint.s3-website.ap-south-1.amazonaws.com' }));
+app.use(cors({ origin: '*' }));
 
 db.sequelize.sync({alter:true});
 
