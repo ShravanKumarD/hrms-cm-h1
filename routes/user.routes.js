@@ -34,6 +34,8 @@ router.delete('/:id', withAuth.verifyToken, withAuth.withRoleAdmin, user.delete)
 router.delete('/', withAuth.verifyToken, withAuth.withRoleAdmin, user.deleteAll);
 
 //Delete all Users by Department Id
-router.delete('/department/:id', withAuth.verifyToken, withAuth.withRoleAdmin, user.deleteAllByDeptId)
+router.delete('/department/:id', withAuth.verifyToken, withAuth.withRoleAdmin, user.deleteAllByDeptId);
+
+router.post('/activateUser',withAuth.verifyToken,user.updateUser);
 
 module.exports = router;

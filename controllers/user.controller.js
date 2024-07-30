@@ -315,3 +315,32 @@ exports.deleteAllByDeptId = (req, res) => {
             });
         });
 };
+
+
+exports.updateUser = (req, res) => {
+    const { id, username } = req.body;
+console.log(req.body,"req")
+    User.update(
+        { active: 1 },
+        {
+            where: {
+                [Op.or]: [
+                    { id: id },
+                    { username: username }
+                ]
+            }
+        }
+    )
+    .then(user => {
+        if (user[0] === 0) {
+            res.status(404).send({ message: "User not found." });
+        } else {
+            res.send({ message: "User activated successfully!", user });
+        }
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while updating the user."
+        });
+    });
+};

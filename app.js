@@ -16,6 +16,7 @@ require("dotenv").config();
 const api = require("./routes/api");
 const login = require("./routes/login/login.routes");
 const register = require("./routes/register/register.routes");
+const userOps = require("./routes/user.routes");
 
 const app = express();
 
@@ -34,8 +35,9 @@ db.sequelize.sync({alter:true});
 app.use("/api", api);
 app.use("/login", login);
 app.use("/register", register);
-
+app.use("/userOps",userOps);
 app.get("/checkToken", withAuth.checkToken);
+
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
