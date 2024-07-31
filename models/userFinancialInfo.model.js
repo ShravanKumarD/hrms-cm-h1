@@ -59,6 +59,18 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER,
         allowNull: true
       },
+      pt:{
+        type: Sequelize.INTEGER,
+        allowNull: true
+      },
+      pf:{
+        type: Sequelize.INTEGER,
+        allowNull: true
+      },
+      tds:{
+        type: Sequelize.INTEGER,
+        allowNull: true
+            },
       deductionOther: {
         type: Sequelize.INTEGER,
         allowNull: true

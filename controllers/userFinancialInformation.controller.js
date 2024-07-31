@@ -29,7 +29,10 @@ exports.create = (req, res) => {
     accountName: req.body.accountName,
     accountNumber: req.body.accountNumber,
     iban: req.body.iban,
-    userId: req.body.userId
+    userId: req.body.userId,
+    pt : req.body.pt,
+tds:req.body.tds,
+pf:req.body.pf
   };
 
   // Save UserFinancialInformation in the database
