@@ -23,6 +23,7 @@ exports.create = async (req, res) => {
     jobTitle: req.body.jobTitle,
     startDate: moment(req.body.startDate).format("YYYY-MM-DD HH:mm:ss"),
     endDate: moment(req.body.endDate).format("YYYY-MM-DD HH:mm:ss"),
+    employmentType:req.body.employmentType,
     userId: req.body.userId,
   };
 
