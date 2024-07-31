@@ -31,8 +31,8 @@ exports.create = (req, res) => {
     iban: req.body.iban,
     userId: req.body.userId,
     pt : req.body.pt,
-tds:req.body.tds,
-pf:req.body.pf
+    tds:req.body.tds,
+    pf:req.body.pf
   };
 
   // Save UserFinancialInformation in the database
@@ -71,7 +71,7 @@ exports.findAll = (req, res) => {
     });
 };
 
-//Retrieve all User Financial Informations By User Id
+// Retrieve all User Financial Informations By User Id
 exports.findByUserId = (req, res) => {
     const userId = req.params.id
 

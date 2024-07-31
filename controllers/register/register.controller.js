@@ -3,6 +3,7 @@ const {
   user: User,
   userPersonalInfo: UserPersonalInfo,
   userFinancialInfo: UserFinancialInfo,
+  userDocuments: UserDocuments,
 } = db;
 const bcrypt = require("bcrypt");
 
@@ -48,14 +49,13 @@ exports.create = async (req, res) => {
     const userData = { userId: createdUser.id };
     await UserPersonalInfo.create(userData);
     await UserFinancialInfo.create(userData);
+    await UserDocuments.create(userData);
 
     return res.status(201).json(createdUser);
   } catch (err) {
     console.error(err);
-    return res
-      .status(500)
-      .json({
-        message: err.message || "Some error occurred while creating the User.",
-      });
+    return res.status(500).json({
+      message: err.message || "Some error occurred while creating the User.",
+    });
   }
 };

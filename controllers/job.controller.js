@@ -1,73 +1,66 @@
 const db = require("../models");
 const Job = db.job;
 const Op = db.Sequelize.Op;
-const moment= require('moment')
+const moment = require("moment");
 
 // Create and Save a new User
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   // Validate request
-  if (!req.body) {
-    res.status(400).send({
-      message: "Content can not be empty!",
+  if (
+    !req.body ||
+    !req.body.jobTitle ||
+    !req.body.startDate ||
+    !req.body.endDate ||
+    !req.body.userId
+  ) {
+    return res.status(400).send({
+      message: "Content can not be empty or missing required fields!",
     });
-    return;
   }
 
   // Create a Job
   const newJob = {
     jobTitle: req.body.jobTitle,
-    startDate: moment(req.body.startDate).format('YYYY-MM-DD HH:mm:ss'),
-    endDate: moment(req.body.endDate).format('YYYY-MM-DD HH:mm:ss'),
+    startDate: moment(req.body.startDate).format("YYYY-MM-DD HH:mm:ss"),
+    endDate: moment(req.body.endDate).format("YYYY-MM-DD HH:mm:ss"),
     userId: req.body.userId,
   };
 
-  Job.findOne({
-    where: {
-      [Op.and]: [
-        { userId: req.body.userId },
-        {startDate: {[Op.lte]: Date.now()}},
-        {endDate: 
+  try {
+    const job = await Job.findOne({
+      where: {
+        [Op.and]: [
+          { userId: req.body.userId },
+          { startDate: { [Op.lte]: Date.now() } },
           {
-            [Op.or]: [
-              {[Op.gte]: Date.now()},
-              {[Op.is]: null}
-            ]
-          }
-        }
-      ]
-    }
-  }).then((job) => {
-    if (job) {
+            endDate: {
+              [Op.or]: [{ [Op.gte]: Date.now() }, { [Op.is]: null }],
+            },
+          },
+        ],
+      },
+    });
 
-      if(new Date(job.dataValues.endDate) > new Date(newJob.startDate)) {
-        job.dataValues.endDate = moment(newJob.startDate).subtract(1, "days");
+    if (job) {
+      if (new Date(job.dataValues.endDate) > new Date(newJob.startDate)) {
+        job.dataValues.endDate = moment(newJob.startDate)
+          .subtract(1, "days")
+          .format("YYYY-MM-DD HH:mm:ss");
       }
 
-      Job.update(job.dataValues, {
+      await Job.update(job.dataValues, {
         where: { id: job.dataValues.id },
-      })
-      .catch((err) => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while creating the Job.",
-        });
       });
-
-    } else {
-      console.log('job not found')
-      
     }
 
-    Job.create(newJob)
-      .then((data) => {
-        res.send(data);
-      })
-      .catch((err) => {
-        res.status(500).send({
-          message: err.message || "Some error occurred while creating the Job.",
-        });
-      });
-  });
+    const createdJob = await Job.create(newJob);
+    res.send(createdJob);
+  } catch (err) {
+    console.error("Error occurred while creating the Job:", err);
+    res.status(500).send({
+      message: err.message || "Some error occurred while creating the Job.",
+    });
+  }
 };
 
 // Retrieve all Jobs from the database.

@@ -16,6 +16,7 @@ const userPersonalEventRouter = require("./userPersonalEvent.routes");
 const userPersonalInformationRouter = require("./userPersonalInformation.routes");
 const userFinancialInformationRouter = require("./userFinacnialInformation.routes");
 const attendanceRouter = require("./attendance.routes");
+const userDocumentsRouter = require("./userDocuments.routes");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -36,6 +37,7 @@ router.use("/messages", userMessageRouter);
 router.use("/personalEvents", userPersonalEventRouter);
 router.use("/personalInformations", userPersonalInformationRouter);
 router.use("/financialInformations", userFinancialInformationRouter);
+router.use("/uploadLetters", userDocumentsRouter);
 router.use("/attendance", attendanceRouter);
 
 module.exports = router;

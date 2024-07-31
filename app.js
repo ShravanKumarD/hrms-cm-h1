@@ -11,6 +11,8 @@ const http = require("http");
 const debug = require("debug")("server:server");
 
 const db = require("./models");
+const UserDocumentsModel = require("./models/userDocuments.model"); // Adjust the path to your model
+
 require("dotenv").config();
 
 const api = require("./routes/api");
@@ -28,16 +30,25 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(cors({ origin: '*' }));
+app.use(cors({ origin: "*" }));
 
-db.sequelize.sync({alter:true});
+db.sequelize.sync({ alter: true });
+
+// const UserDocuments = db.userDocuments;
+
+// UserDocuments.sync({ alter: true })
+//   .then(() => {
+//     console.log("UserDocuments table has been synchronized.");
+//   })
+//   .catch((error) => {
+//     console.error("Error synchronizing UserDocuments table:", error);
+//   });
 
 app.use("/api", api);
 app.use("/login", login);
 app.use("/register", register);
-app.use("/userOps",userOps);
+app.use("/userOps", userOps);
 app.get("/checkToken", withAuth.checkToken);
-
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {

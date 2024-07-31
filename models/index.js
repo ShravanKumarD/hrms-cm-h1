@@ -31,6 +31,7 @@ db.userPersonalEvent = require("./userPersonalEvent.model")(
   sequelize,
   Sequelize
 );
+db.userDocuments = require("./userDocuments.model")(sequelize, Sequelize);
 db.department = require("./department.model")(sequelize, Sequelize);
 db.deptAnnouncement = require("./deptAnnouncement.model")(sequelize, Sequelize);
 db.job = require("./job.model")(sequelize, Sequelize);
@@ -42,6 +43,7 @@ db.expense = require("./expense.model")(sequelize, Sequelize);
 // User Associations
 db.user.hasOne(db.userPersonalInfo, { foreignKey: { allowNull: false } });
 db.user.hasOne(db.userFinancialInfo, { foreignKey: { allowNull: false } });
+db.user.hasOne(db.userDocuments, { foreignKey: { allowNull: false } });
 db.user.hasMany(db.userPersonalEvent, {
   foreignKey: { allowNull: false },
   onDelete: "CASCADE",
@@ -71,6 +73,9 @@ db.user.belongsTo(db.department, { foreginKey: { allowNull: true } });
 
 // User Financial Informations Assocations
 db.userFinancialInfo.belongsTo(db.user, { foreignKey: { allowNull: false } });
+
+// User Documents Associations
+db.userDocuments.belongsTo(db.user, { foreignKey: { allowNull: false } });
 
 // Department Associations
 db.department.hasMany(db.user, { onDelete: "CASCADE", hooks: true });
