@@ -5,3 +5,5 @@ AdminLTE-3.0.4
 node_modules
 
 client/node_modules
+
+client/public
