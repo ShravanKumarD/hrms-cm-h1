@@ -45,7 +45,7 @@ exports.markAttendanceClockIn=async(req,res)=>{
       latitudeClockin,
       longitudeClockin,
     } = req.body;
-    console.log(req.body['clockinTime'],"req-body")
+    console.log(req.body['clockinTime'],"clockinTime")
     const utcDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
     console.log(utcDate)
     const attendance = await Attendance.create({
