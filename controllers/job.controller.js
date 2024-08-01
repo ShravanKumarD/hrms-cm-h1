@@ -10,8 +10,8 @@ exports.create = async (req, res) => {
     !req.body ||
     !req.body.jobTitle ||
     !req.body.startDate ||
-    !req.body.endDate ||
     !req.body.userId
+    // ||!req.body.endDate
   ) {
     return res.status(400).send({
       message: "Content can not be empty or missing required fields!",
