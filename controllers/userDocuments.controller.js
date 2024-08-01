@@ -46,6 +46,7 @@ exports.uploadDocument = upload.fields([
 
 // Create and Save a new User Document
 exports.create = (req, res) => {
+    console.log("brrrrr");
     const userDocuments = {
         offerLetter: req.files.offerLetter ? req.files.offerLetter[0].path : null,
         salarySlips: req.files.salarySlips ? req.files.salarySlips[0].path : null,
