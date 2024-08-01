@@ -6,7 +6,11 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
   operatorsAliases: 0,
-
+  timezone: '+05:30',
+  dialectOptions: {
+    timezone: "local"
+  },
+  logging: false,
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
@@ -14,7 +18,14 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     idle: dbConfig.pool.idle,
   },
 });
+sequelize.beforeConnect( (config) => {
+  config.timezone = '+05:30';
+  return config;
+});
 
+sequelize.afterConnect( (connection) => {
+   connection.query('SET time_zone = "+05:30";');
+});
 const db = {};
 
 db.Sequelize = Sequelize;
