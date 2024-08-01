@@ -21,7 +21,7 @@ module.exports = (sequelize, Sequelize) => {
         allowNull: true,
       },
       employmentType: {
-        type: Sequelize.DATE,
+        type: Sequelize.STRING,
         allowNull: false
       }
     },
