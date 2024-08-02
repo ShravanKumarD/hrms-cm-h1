@@ -15,6 +15,7 @@ const userMessageRouter = require("./userMessage.routes");
 const userPersonalEventRouter = require("./userPersonalEvent.routes");
 const userPersonalInformationRouter = require("./userPersonalInformation.routes");
 const userFinancialInformationRouter = require("./userFinacnialInformation.routes");
+const userSalarySlipRouter = require("./userSalarySlip.routes");
 const attendanceRouter = require("./attendance.routes");
 const userDocumentsRouter = require("./userDocuments.routes");
 
@@ -37,6 +38,7 @@ router.use("/messages", userMessageRouter);
 router.use("/personalEvents", userPersonalEventRouter);
 router.use("/personalInformations", userPersonalInformationRouter);
 router.use("/financialInformations", userFinancialInformationRouter);
+router.use("/salary-slip", userSalarySlipRouter);
 router.use("/uploadLetters", userDocumentsRouter);
 router.use("/attendance", attendanceRouter);
 

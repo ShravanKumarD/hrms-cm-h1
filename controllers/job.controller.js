@@ -10,6 +10,7 @@ exports.create = async (req, res) => {
     !req.body ||
     !req.body.jobTitle ||
     !req.body.startDate ||
+    !req.body.employmentType ||
     !req.body.userId
     // ||!req.body.endDate
   ) {

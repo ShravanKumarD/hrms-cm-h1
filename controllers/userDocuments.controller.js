@@ -2,6 +2,7 @@ const db = require("../models");
 const UserDocuments = db.userDocuments;
 const multer = require("multer");
 const path = require("path");
+const fs = require('fs');
 
 // Setup multer storage
 const storage = multer.diskStorage({
@@ -80,4 +81,34 @@ exports.findByUserId = (req, res) => {
                 message: "Error retrieving UserDocuments with userId=" + userId
             });
         });
+};
+
+// Controller method to download a file
+exports.downloadFile = (req, res) => {
+    const { filePath } = req.body;
+
+    // Validate filePath
+    if (!filePath || typeof filePath !== 'string') {
+        return res.status(400).send({
+            message: "Invalid file path."
+        });
+    }
+
+    // Resolve the absolute path to prevent directory traversal attacks
+    const absolutePath = path.resolve(filePath);
+
+    if (fs.existsSync(absolutePath)) {
+        res.download(absolutePath, (err) => {
+            if (err) {
+                console.error("Error downloading the file:", err);
+                res.status(500).send({
+                    message: "Error downloading the file."
+                });
+            }
+        });
+    } else {
+        res.status(404).send({
+            message: "File not found."
+        });
+    }
 };

@@ -174,6 +174,39 @@ exports.findOne = (req, res) => {
         });
 };
 
+// Retrieve all User full names from the database.
+exports.findAllFullNames = (req, res) => {
+    User.findAll({
+        attributes: ['fullName'] // Select only the 'fullName' attribute
+    })
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        res.status(500).send({
+            message:
+                err.message || "Some error occurred while retrieving the User full names."
+        });
+    });
+};
+
+// Retrieve all User full names and IDs from the database.
+exports.findAllFullNamesAndIds = (req, res) => {
+    User.findAll({
+        attributes: ['id', 'fullName'] // Select only the 'id' and 'fullName' attributes
+    })
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        res.status(500).send({
+            message:
+                err.message || "Some error occurred while retrieving the User full names and IDs."
+        });
+    });
+};
+
+
 // Update a User by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;

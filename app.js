@@ -32,7 +32,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors({ origin: "*" }));
 
-db.sequelize.sync({ force: true });
+db.sequelize.sync({ force: true }).then(() => {
+  console.log("Database synchronized.");
+});
 
 // const UserDocuments = db.userDocuments;
 

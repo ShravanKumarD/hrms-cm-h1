@@ -11,6 +11,12 @@ router.post('/', user.create);
 // Retrieve all Users
 router.get('/', withAuth.verifyToken, withAuth.withRoleAdminOrManager, user.findAll);
 
+// Retrieve all User full names | Added new 2 Aug 2024
+router.get('/fullnames', withAuth.verifyToken, withAuth.withRoleAdminOrManager, user.findAllFullNames);
+
+// Retrieve all User full names and IDs
+router.get('/fullnames-and-ids', withAuth.verifyToken, withAuth.withRoleAdminOrManager, user.findAllFullNamesAndIds);
+
 //Retreive user count
 router.get('/total', withAuth.verifyToken, withAuth.withRoleAdminOrManager, user.findTotal);
 

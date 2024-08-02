@@ -40,6 +40,7 @@ db.application = require("./application.model")(sequelize, Sequelize);
 db.attendance = require("./attendance.model")(sequelize, Sequelize);
 db.payment = require("./payment.model")(sequelize, Sequelize);
 db.expense = require("./expense.model")(sequelize, Sequelize);
+db.userSalarySlip = require("./userSalarySlips.model")(sequelize, Sequelize);
 
 // User Associations
 db.user.hasOne(db.userPersonalInfo, { foreignKey: { allowNull: false } });
@@ -70,6 +71,7 @@ db.user.hasMany(db.attendance, {
   onDelete: "CASCADE",
   hooks: true,
 });
+db.user.hasMany(db.userSalarySlip, { foreignKey: { allowNull: false } });
 db.user.belongsTo(db.department, { foreginKey: { allowNull: true } });
 
 // User Financial Informations Assocations
@@ -117,5 +119,8 @@ db.attendance.belongsTo(db.user, {
   foreignKey: { allowNull: false },
   onDelete: "CASCADE",
 });
+
+// User Salary Slip Associations
+db.userSalarySlip.belongsTo(db.user, { foreignKey: { allowNull: false } });
 
 module.exports = db;
