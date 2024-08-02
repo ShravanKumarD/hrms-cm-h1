@@ -7,7 +7,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   dialect: dbConfig.dialect,
   operatorsAliases: 0,
   timezone: "+05:30",
-  logging:false,
+  logging: false,
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
@@ -41,6 +41,7 @@ db.attendance = require("./attendance.model")(sequelize, Sequelize);
 db.payment = require("./payment.model")(sequelize, Sequelize);
 db.expense = require("./expense.model")(sequelize, Sequelize);
 db.userSalarySlip = require("./userSalarySlips.model")(sequelize, Sequelize);
+db.userOfferLetter = require("./userOfferLetter.model")(sequelize, Sequelize);
 
 // User Associations
 db.user.hasOne(db.userPersonalInfo, { foreignKey: { allowNull: false } });
@@ -72,6 +73,7 @@ db.user.hasMany(db.attendance, {
   hooks: true,
 });
 db.user.hasMany(db.userSalarySlip, { foreignKey: { allowNull: false } });
+db.user.hasOne(db.userOfferLetter, { foreignKey: { allowNull: false } });
 db.user.belongsTo(db.department, { foreginKey: { allowNull: true } });
 
 // User Financial Informations Assocations
@@ -122,5 +124,8 @@ db.attendance.belongsTo(db.user, {
 
 // User Salary Slip Associations
 db.userSalarySlip.belongsTo(db.user, { foreignKey: { allowNull: false } });
+
+// User Offer Letter Associations
+db.userOfferLetter.belongsTo(db.user, { foreignKey: { allowNull: false } });
 
 module.exports = db;

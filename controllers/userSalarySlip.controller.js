@@ -7,6 +7,7 @@ const UserFinancialInfo = db.userFinancialInfo;
 exports.createSalarySlip = async (req, res) => {
   try {
     const {
+      name, // Added name here
       userId,
       address,
       designation,
@@ -26,6 +27,7 @@ exports.createSalarySlip = async (req, res) => {
     } = req.body;
 
     const salarySlip = await UserSalarySlip.create({
+      name, // Added name here
       userId,
       address,
       designation,
