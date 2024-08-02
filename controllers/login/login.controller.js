@@ -42,7 +42,7 @@ exports.authenticate = async (req, res) => {
     };
 
     const token = jwt.sign({ user: userData }, process.env.SECRET_KEY, {
-      expiresIn: "30m",
+      expiresIn: "30d",
     });
     res.cookie("token", token);
 
