@@ -82,9 +82,9 @@ db.user.hasOne(db.userOfferLetter, {
 db.user.hasOne(db.userHikeLetter, {
   foreignKey: { name: "userId", allowNull: false },
 });
-db.user.hasOne(db.userResignationLetter, {
-  foreignKey: { name: "userId", allowNull: false },
-});
+// db.user.hasOne(db.userResignationLetter, {
+//   foreignKey: { name: "userId", allowNull: false },
+// });
 db.user.belongsTo(db.department, { foreignKey: { allowNull: true } });
 
 // User Financial Informations Assocations
@@ -147,8 +147,8 @@ db.userHikeLetter.belongsTo(db.user, {
 });
 
 // User Resignation Letter Associations
-db.userResignationLetter.belongsTo(db.user, {
-  foreignKey: { name: "userId", allowNull: false },
-});
+// db.userResignationLetter.belongsTo(db.user, {
+//   foreignKey: { name: "userId", allowNull: false },
+// });
 
 module.exports = db;

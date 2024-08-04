@@ -93,10 +93,3 @@ exports.delete = async (req, res) => {
     res.status(500).send({ message: error.message });
   }
 };
-
-// Associations
-db.userHikeLetter.belongsTo(db.user, {
-  foreignKey: { name: "userId", allowNull: false },
-});
-
-db.user.belongsTo(db.department, { foreignKey: { allowNull: true } });

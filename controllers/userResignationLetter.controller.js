@@ -66,7 +66,9 @@ exports.findOne = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const id = req.params.id;
-    const [updated] = await UserResignationLetter.update(req.body, { where: { id } });
+    const [updated] = await UserResignationLetter.update(req.body, {
+      where: { id },
+    });
 
     if (updated) {
       const updatedResignationLetter = await UserResignationLetter.findByPk(id);
@@ -86,7 +88,9 @@ exports.delete = async (req, res) => {
     const deleted = await UserResignationLetter.destroy({ where: { id } });
 
     if (deleted) {
-      res.status(200).send({ message: "Resignation letter deleted successfully." });
+      res
+        .status(200)
+        .send({ message: "Resignation letter deleted successfully." });
     } else {
       res.status(404).send({ message: "Resignation letter not found." });
     }
@@ -94,7 +98,3 @@ exports.delete = async (req, res) => {
     res.status(500).send({ message: error.message });
   }
 };
-
-db.userResignationLetter.belongsTo(db.user, {
-  foreignKey: { name: "userId", allowNull: false },
-});
