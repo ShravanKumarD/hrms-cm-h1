@@ -18,6 +18,7 @@ const userFinancialInformationRouter = require("./userFinancialInformation.route
 const userSalarySlipRouter = require("./userSalarySlip.routes");
 const userOfferLetterRouter = require("./userOfferLetter.routes");
 const userHikeLetterRouter = require("./userHikeLetter.routes");
+const userResignationLetterRouter = require("./userResignationLetter.routes");
 const attendanceRouter = require("./attendance.routes");
 const userDocumentsRouter = require("./userDocuments.routes");
 
@@ -43,6 +44,7 @@ router.use("/financialInformations", userFinancialInformationRouter);
 router.use("/salary-slip", userSalarySlipRouter);
 router.use("/offerLetters", userOfferLetterRouter);
 router.use("/hikeLetters", userHikeLetterRouter);
+router.use("/resignationLetters", userResignationLetterRouter);
 router.use("/uploadLetters", userDocumentsRouter);
 router.use("/attendance", attendanceRouter);
 

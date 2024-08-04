@@ -43,6 +43,7 @@ db.expense = require("./expense.model")(sequelize, Sequelize);
 db.userSalarySlip = require("./userSalarySlips.model")(sequelize, Sequelize);
 db.userOfferLetter = require("./userOfferLetter.model")(sequelize, Sequelize);
 db.userHikeLetter = require("./userHikeLetter.model")(sequelize, Sequelize);
+db.userResignationLetter = require("./userResignationLetter.model");
 
 // User Associations
 db.user.hasOne(db.userPersonalInfo, { foreignKey: { allowNull: false } });
@@ -77,7 +78,11 @@ db.user.hasMany(db.userSalarySlip, { foreignKey: { allowNull: false } });
 db.user.hasOne(db.userOfferLetter, {
   foreignKey: { name: "userId", allowNull: false },
 });
+// maybe this is hasMany since a user can have multiple hike letters, change to salaryslip template
 db.user.hasOne(db.userHikeLetter, {
+  foreignKey: { name: "userId", allowNull: false },
+});
+db.user.hasOne(db.userResignationLetter, {
   foreignKey: { name: "userId", allowNull: false },
 });
 db.user.belongsTo(db.department, { foreignKey: { allowNull: true } });
@@ -136,8 +141,13 @@ db.userOfferLetter.belongsTo(db.user, {
   foreignKey: { name: "userId", allowNull: false },
 });
 
-// User Offer Letter Associations
+// User Hike Letter Associations
 db.userHikeLetter.belongsTo(db.user, {
+  foreignKey: { name: "userId", allowNull: false },
+});
+
+// User Resignation Letter Associations
+db.userResignationLetter.belongsTo(db.user, {
   foreignKey: { name: "userId", allowNull: false },
 });
 
