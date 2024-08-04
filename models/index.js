@@ -76,7 +76,7 @@ db.user.hasMany(db.userSalarySlip, { foreignKey: { allowNull: false } });
 db.user.hasOne(db.userOfferLetter, {
   foreignKey: { name: "userId", allowNull: false },
 });
-db.user.belongsTo(db.department, { foreginKey: { allowNull: true } });
+db.user.belongsTo(db.department, { foreignKey: { allowNull: true } });
 
 // User Financial Informations Assocations
 db.userFinancialInfo.belongsTo(db.user, { foreignKey: { allowNull: false } });
