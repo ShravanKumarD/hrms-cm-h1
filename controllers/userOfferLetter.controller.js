@@ -1,4 +1,4 @@
-// offerLetter.controller.js
+// userOfferLetter.controller.js
 const db = require("../models");
 const UserOfferLetter = db.userOfferLetter;
 const User = db.user;
@@ -27,7 +27,7 @@ exports.createOfferLetter = async (req, res) => {
     }
 
     const offerLetter = await UserOfferLetter.create({
-      user_id: userId,
+      userId,
       full_name,
       recipient_place,
       role,

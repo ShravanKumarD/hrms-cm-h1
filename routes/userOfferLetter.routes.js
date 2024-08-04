@@ -1,4 +1,4 @@
-// offerLetters.routes.js
+// userOfferLetter.routes.js
 var express = require("express");
 var router = express.Router();
 

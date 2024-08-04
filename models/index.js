@@ -73,7 +73,9 @@ db.user.hasMany(db.attendance, {
   hooks: true,
 });
 db.user.hasMany(db.userSalarySlip, { foreignKey: { allowNull: false } });
-db.user.hasOne(db.userOfferLetter, { foreignKey: { allowNull: false } });
+db.user.hasOne(db.userOfferLetter, {
+  foreignKey: { name: "userId", allowNull: false },
+});
 db.user.belongsTo(db.department, { foreginKey: { allowNull: true } });
 
 // User Financial Informations Assocations
@@ -126,6 +128,8 @@ db.attendance.belongsTo(db.user, {
 db.userSalarySlip.belongsTo(db.user, { foreignKey: { allowNull: false } });
 
 // User Offer Letter Associations
-db.userOfferLetter.belongsTo(db.user, { foreignKey: { allowNull: false } });
+db.userOfferLetter.belongsTo(db.user, {
+  foreignKey: { name: "userId", allowNull: false },
+});
 
 module.exports = db;
