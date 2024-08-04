@@ -5,6 +5,7 @@ const UserFinancialInfo = db.userFinancialInfo;
 
 // Create a new User Salary Slip
 exports.createSalarySlip = async (req, res) => {
+  console.log(req.body)
   try {
     const {
       name, // Added name here
