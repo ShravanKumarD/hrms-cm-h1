@@ -43,7 +43,7 @@ db.expense = require("./expense.model")(sequelize, Sequelize);
 db.userSalarySlip = require("./userSalarySlips.model")(sequelize, Sequelize);
 db.userOfferLetter = require("./userOfferLetter.model")(sequelize, Sequelize);
 db.userHikeLetter = require("./userHikeLetter.model")(sequelize, Sequelize);
-db.userResignationLetter = require("./userResignationLetter.model");
+db.userResignationLetter = require("./userResignationLetter.model")(sequelize, Sequelize);
 
 // User Associations
 db.user.hasOne(db.userPersonalInfo, { foreignKey: { allowNull: false } });
@@ -82,9 +82,9 @@ db.user.hasOne(db.userOfferLetter, {
 db.user.hasOne(db.userHikeLetter, {
   foreignKey: { name: "userId", allowNull: false },
 });
-// db.user.hasOne(db.userResignationLetter, {
-//   foreignKey: { name: "userId", allowNull: false },
-// });
+db.user.hasOne(db.userResignationLetter, {
+  foreignKey: { name: "userId", allowNull: false },
+});
 db.user.belongsTo(db.department, { foreignKey: { allowNull: true } });
 
 // User Financial Informations Assocations
@@ -147,8 +147,8 @@ db.userHikeLetter.belongsTo(db.user, {
 });
 
 // User Resignation Letter Associations
-// db.userResignationLetter.belongsTo(db.user, {
-//   foreignKey: { name: "userId", allowNull: false },
-// });
+db.userResignationLetter.belongsTo(db.user, {
+  foreignKey: { name: "userId", allowNull: false },
+});
 
 module.exports = db;
