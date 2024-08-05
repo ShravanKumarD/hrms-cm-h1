@@ -36,7 +36,7 @@ exports.markAttendance = async (req, res) => {
   }
 };
  
-exports.markAttendanceClockIn=async(req,res)=>{
+exports.markAttendanceClockIn = async (req, res) => {
   try {
     const {
       userId,
@@ -45,22 +45,52 @@ exports.markAttendanceClockIn=async(req,res)=>{
       latitudeClockin,
       longitudeClockin,
     } = req.body;
+    // Validate input data
+    if (!userId) {
+      throw new Error("User ID is required");
+    }
+    if (!date) {
+      throw new Error("Date is required");
+    }
+    if (!clockinTime) {
+      throw new Error("Clock-in time is required");
+    }
+    if (latitudeClockin === undefined || longitudeClockin === undefined) {
+      throw new Error("Clock-in location (latitude and longitude) is required");
+    }
+
+
+    // Validate clock-in time format (assuming it's a string in HH:MM:SS format)
+    // const clockinTimeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
+    // if (!clockinTimeRegex.test(clockinTime)) {
+    //   throw new Error("Invalid clock-in time format");
+    // }
+    const user = await User.findByPk(1);
+    console.log(user,"eeeeee")
+    // Create the attendance record
     const attendance = await Attendance.create({
-      userId,
+      userId:Number(userId),
       date,
-      status:'Present',
+      status: 'Present',
       clockinTime,
-      latitudeClockin,
-      longitudeClockin,
-      // clockoutTime,
-      // latitudeClockout,
-      // longitudeClockout,
+      latitudeClockin :latitudeClockin || 0 ,
+      longitudeClockin:longitudeClockin || 0,
     });
+
+    console.log(attendance, "atte");
     res.status(201).json(attendance);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error, "err");
+    if (error.message.includes("required")) {
+      res.status(400).json({ error: error.message });
+    } else if (error.message.includes("format")) {
+      res.status(422).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
-}
+};
+
 
 exports.markAttendanceClockOut=async(req,res)=>{
   console.log(req.body,"uuuuu")

@@ -71,7 +71,7 @@ db.user.hasMany(db.job, {
   hooks: true,
 });
 db.user.hasMany(db.attendance, {
-  foreignKey: { allowNull: false },
+  foreignKey: {name: 'userId', allowNull: false },
   onDelete: "CASCADE",
   hooks: true,
 });
@@ -133,7 +133,7 @@ db.deptAnnouncement.belongsTo(db.user, {
 
 // Attendance Associations
 db.attendance.belongsTo(db.user, {
-  foreignKey: { allowNull: false },
+  foreignKey: { name: "userId",allowNull: false },
   onDelete: "CASCADE",
 });
 

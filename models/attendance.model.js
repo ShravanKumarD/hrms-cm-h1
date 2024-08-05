@@ -6,7 +6,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "user", // Assumes 'User' table exists
+          model: "user",
           key: "id",
         },
       },
