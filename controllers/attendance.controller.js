@@ -45,6 +45,9 @@ exports.markAttendanceClockIn = async (req, res) => {
       latitudeClockin,
       longitudeClockin,
     } = req.body;
+
+    console.log("Request body:", req.body); // Log the entire request body for debugging
+
     // Validate input data
     if (!userId) {
       throw new Error("User ID is required");
@@ -59,22 +62,33 @@ exports.markAttendanceClockIn = async (req, res) => {
       throw new Error("Clock-in location (latitude and longitude) is required");
     }
 
+    // Validate date format
+    const parsedDate = Date.parse(date);
+    if (isNaN(parsedDate)) {
+      throw new Error("Invalid date format");
+    }
 
-    // Validate clock-in time format (assuming it's a string in HH:MM:SS format)
-    // const clockinTimeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
-    // if (!clockinTimeRegex.test(clockinTime)) {
-    //   throw new Error("Invalid clock-in time format");
-    // }
-    const user = await User.findByPk(1);
-    console.log(user,"eeeeee")
+    // Validate clock-in time format (allowing both HH:MM:SS and ISO 8601)
+    const clockinTimeISORegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?Z$/;
+    const clockinTimeHHMMSSRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
+    if (!clockinTimeISORegex.test(clockinTime) && !clockinTimeHHMMSSRegex.test(clockinTime)) {
+      throw new Error("Invalid clock-in time format");
+    }
+
+    // Check if user exists
+    const user = await User.findByPk(userId);
+    if (!user) {
+      throw new Error("User does not exist");
+    }
+
     // Create the attendance record
     const attendance = await Attendance.create({
-      userId:Number(userId),
+      userId,
       date,
       status: 'Present',
       clockinTime,
-      latitudeClockin :latitudeClockin || 0 ,
-      longitudeClockin:longitudeClockin || 0,
+      latitudeClockin,
+      longitudeClockin,
     });
 
     console.log(attendance, "atte");
@@ -90,7 +104,6 @@ exports.markAttendanceClockIn = async (req, res) => {
     }
   }
 };
-
 
 exports.markAttendanceClockOut=async(req,res)=>{
   console.log(req.body,"uuuuu")
