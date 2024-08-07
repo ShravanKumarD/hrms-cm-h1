@@ -8,6 +8,10 @@ const financialInformation = require("../controllers/userFinancialInformation.co
 // Create a new User Financial Information
 router.post('/', withAuth.verifyToken, withAuth.withRoleAdmin, financialInformation.create);
 
+// Create or Update a new User Financial Information
+router.post('/createOrUpdate', withAuth.verifyToken, withAuth.withRoleAdmin, financialInformation.createOrUpdate);
+
+
 // Retrieve all User Financial Information
 router.get('/', withAuth.verifyToken, withAuth.withRoleAdminOrManager, financialInformation.findAll)
 

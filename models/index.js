@@ -8,6 +8,15 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   operatorsAliases: 0,
   timezone: "+05:30",
   logging: false,
+  dialectOptions: {
+    dateStrings: true,
+    typeCast: function (field, next) {
+      if (field.type === "DATETIME") {
+        return field.string();
+      }
+      return next();
+    },
+  },
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
@@ -43,8 +52,14 @@ db.expense = require("./expense.model")(sequelize, Sequelize);
 db.userSalarySlip = require("./userSalarySlips.model")(sequelize, Sequelize);
 db.userOfferLetter = require("./userOfferLetter.model")(sequelize, Sequelize);
 db.userHikeLetter = require("./userHikeLetter.model")(sequelize, Sequelize);
-db.userResignationLetter = require("./userResignationLetter.model")(sequelize,Sequelize);
-db.userRelievingLetter = require("./userRelievingLetter.model")(sequelize, Sequelize);
+db.userResignationLetter = require("./userResignationLetter.model")(
+  sequelize,
+  Sequelize
+);
+db.userRelievingLetter = require("./userRelievingLetter.model")(
+  sequelize,
+  Sequelize
+);
 
 // User Associations
 db.user.hasOne(db.userPersonalInfo, { foreignKey: { allowNull: false } });
@@ -71,7 +86,7 @@ db.user.hasMany(db.job, {
   hooks: true,
 });
 db.user.hasMany(db.attendance, {
-  foreignKey: {name: 'userId', allowNull: false },
+  foreignKey: { name: "userId", allowNull: false },
   onDelete: "CASCADE",
   hooks: true,
 });
@@ -133,7 +148,7 @@ db.deptAnnouncement.belongsTo(db.user, {
 
 // Attendance Associations
 db.attendance.belongsTo(db.user, {
-  foreignKey: { name: "userId",allowNull: false },
+  foreignKey: { name: "userId", allowNull: false },
   onDelete: "CASCADE",
 });
 

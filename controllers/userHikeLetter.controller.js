@@ -20,6 +20,27 @@ exports.createHikeLetter = async (req, res) => {
       return res.status(400).send({ message: "User ID is required." });
     }
 
+    // Check if a hike letter with the same data already exists
+    const existingHikeLetter = await UserHikeLetter.findOne({
+      where: {
+        userId,
+        date,
+        name,
+        place,
+        effective_date,
+        new_salary,
+        previous_salary,
+        hr_name,
+      },
+    });
+
+    if (existingHikeLetter) {
+      return res.status(200).send({
+        message:
+          "No changes were made as the data is identical to the existing record.",
+      });
+    }
+
     const hikeLetter = await UserHikeLetter.create({
       userId,
       date,
@@ -33,7 +54,11 @@ exports.createHikeLetter = async (req, res) => {
 
     res.status(201).send(hikeLetter);
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(500).send({
+      message: "An error occurred while creating the hike letter.",
+      error: error.message,
+      stack: error.stack,
+    });
   }
 };
 
