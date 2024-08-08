@@ -69,11 +69,11 @@ exports.markAttendanceClockIn = async (req, res) => {
     }
 
     // Validate clock-in time format (allowing both HH:MM:SS and ISO 8601)
-    const clockinTimeISORegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?Z$/;
-    const clockinTimeHHMMSSRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
-    if (!clockinTimeISORegex.test(clockinTime) && !clockinTimeHHMMSSRegex.test(clockinTime)) {
-      throw new Error("Invalid clock-in time format");
-    }
+    // const clockinTimeISORegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?Z$/;
+    // const clockinTimeHHMMSSRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
+    // if (!clockinTimeISORegex.test(clockinTime) && !clockinTimeHHMMSSRegex.test(clockinTime)) {
+    //   throw new Error("Invalid clock-in time format");
+    // }
 
     // Check if user exists
     const user = await User.findByPk(userId);
@@ -90,7 +90,6 @@ exports.markAttendanceClockIn = async (req, res) => {
       latitudeClockin,
       longitudeClockin,
     });
-
     console.log(attendance, "atte");
     res.status(201).json(attendance);
   } catch (error) {
@@ -106,7 +105,6 @@ exports.markAttendanceClockIn = async (req, res) => {
 };
 
 exports.markAttendanceClockOut=async(req,res)=>{
-  console.log(req.body,"uuuuu")
   try {
     const {
       userId,
@@ -127,6 +125,7 @@ exports.markAttendanceClockOut=async(req,res)=>{
     latitudeClockout:null,
   }
   });
+  console.log(attendance,"uuuuu")
     res.status(201).json(attendance);
   } catch (error) {
     res.status(500).json({ error: error.message });
