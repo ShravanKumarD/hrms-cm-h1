@@ -47,7 +47,7 @@ router.use("/offerLetters", userOfferLetterRouter);
 router.use("/hikeLetters", userHikeLetterRouter);
 router.use("/resignationLetters", userResignationLetterRouter);
 router.use("/relievingLetters", userRelievingLetterRouter);
-router.use("/uploadLetters", userDocumentsRouter);
+// router.use("/uploadLetters", userDocumentsRouter);
 router.use("/attendance", attendanceRouter);
 
 module.exports = router;
