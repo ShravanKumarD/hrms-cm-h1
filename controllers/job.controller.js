@@ -5,9 +5,9 @@ const moment = require("moment");
 
 // Create and Save a new User
 exports.create = async (req, res) => {
+  console.log(req.body.employmentType,'reqbody')
   // Validate request
   if (
-    !req.body ||
     !req.body.jobTitle ||
     !req.body.startDate ||
     !req.body.employmentType ||
