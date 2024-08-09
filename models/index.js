@@ -7,7 +7,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   dialect: dbConfig.dialect,
   operatorsAliases: 0,
   timezone: "+05:30",
-  logging: false,
+  logging: true,
   dialectOptions: {
     dateStrings: true,
     typeCast: function (field, next) {
