@@ -1,4 +1,3 @@
-// userOfferLetter.controller.js
 const db = require("../models");
 const UserOfferLetter = db.userOfferLetter;
 const User = db.user;
@@ -26,6 +25,7 @@ exports.createOfferLetter = async (req, res) => {
       return res.status(400).send({ message: "User ID is required." });
     }
 
+    // Set end date to null if not provided
     const offerLetter = await UserOfferLetter.create({
       userId,
       full_name,
@@ -34,7 +34,7 @@ exports.createOfferLetter = async (req, res) => {
       department,
       salary,
       start_date,
-      end_date,
+      end_date: end_date || null,
       location,
       work_schedule,
       company_name,
