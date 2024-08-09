@@ -81,9 +81,7 @@ exports.update = async (req, res) => {
     if (updated) {
       const updatedOfferLetter = await UserOfferLetter.findByPk(id);
       res.status(200).send(updatedOfferLetter);
-    } else {
-      res.status(404).send({ message: "Offer letter not found." });
-    }
+    } 
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
