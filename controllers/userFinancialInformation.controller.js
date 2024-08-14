@@ -71,12 +71,15 @@ exports.createOrUpdate = (req, res) => {
   // Validate request
   if (!req.body) {
     res.status(400).send({
-      message: "Content can not be empty!",
+      message: "Content cannot be empty!",
     });
     return;
   }
 
-  // Create an UserFinancialInformation object
+  // Log incoming request body
+  console.log(req.body, 'Received Data');
+
+  // Create a UserFinancialInformation object
   const userFinancialInformation = {
     employmentType: req.body.employmentType,
     salaryBasic: req.body.salaryBasic,
@@ -98,6 +101,8 @@ exports.createOrUpdate = (req, res) => {
     tds: req.body.tds,
     pf: req.body.pf,
   };
+
+  console.log(userFinancialInformation, 'UserFinancialInformation Object');
 
   // Save or Update UserFinancialInformation in the database
   UserFinancialInformation.findOne({
