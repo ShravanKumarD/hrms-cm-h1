@@ -4,6 +4,13 @@ const User = db.user;
 const Op = db.Sequelize.Op;
 const moment = require("moment");
 
+// Helper function to exclude sensitive fields from User data
+const excludeSensitiveUserFields = (user) => {
+  if (!user) return null;
+  const { password, role, ...safeUserData } = user;
+  return safeUserData;
+};
+
 // Create and Save a new Attendance record
 exports.markAttendance = async (req, res) => {
   try {
@@ -18,7 +25,20 @@ exports.markAttendance = async (req, res) => {
       latitudeClockout,
       longitudeClockout,
     } = req.body;
-    console.log(req.body,"hhhh")
+
+    // Check if attendance already exists for the given user and date
+    const existingAttendance = await Attendance.findOne({
+      where: { userId, date },
+    });
+
+    if (existingAttendance) {
+      return res
+        .status(400)
+        .json({
+          error: "Attendance record already exists for this date and user.",
+        });
+    }
+
     const attendance = await Attendance.create({
       userId,
       date,
@@ -30,70 +50,63 @@ exports.markAttendance = async (req, res) => {
       latitudeClockout,
       longitudeClockout,
     });
+
     res.status(201).json(attendance);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    if (error.name === "SequelizeUniqueConstraintError") {
+      res
+        .status(400)
+        .json({
+          error: "Attendance record already exists for this date and user.",
+        });
+    } else {
+      res.status(500).json({ error: error.message });
+    }
   }
 };
- 
+
+// Mark Attendance Clock In
 exports.markAttendanceClockIn = async (req, res) => {
   try {
-    const {
-      userId,
-      date,
-      clockinTime,
-      latitudeClockin,
-      longitudeClockin,
-    } = req.body;
+    const { userId, date, clockinTime, latitudeClockin, longitudeClockin } = req.body;
 
-    console.log("Request body:", req.body); // Log the entire request body for debugging
+    console.log("Clock In Request Body:", req.body);
 
-    // Validate input data
-    if (!userId) {
-      throw new Error("User ID is required");
-    }
-    if (!date) {
-      throw new Error("Date is required");
-    }
-    if (!clockinTime) {
-      throw new Error("Clock-in time is required");
-    }
-    if (latitudeClockin === undefined || longitudeClockin === undefined) {
-      throw new Error("Clock-in location (latitude and longitude) is required");
-    }
-
-    // Validate date format
     const parsedDate = Date.parse(date);
     if (isNaN(parsedDate)) {
       throw new Error("Invalid date format");
     }
 
-    // Validate clock-in time format (allowing both HH:MM:SS and ISO 8601)
-    // const clockinTimeISORegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?Z$/;
-    // const clockinTimeHHMMSSRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
-    // if (!clockinTimeISORegex.test(clockinTime) && !clockinTimeHHMMSSRegex.test(clockinTime)) {
-    //   throw new Error("Invalid clock-in time format");
-    // }
-
-    // Check if user exists
     const user = await User.findByPk(userId);
     if (!user) {
       throw new Error("User does not exist");
     }
 
-    // Create the attendance record
+    // Check if attendance already exists for the given user and date
+    const existingAttendance = await Attendance.findOne({
+      where: { userId, date },
+    });
+
+    if (existingAttendance) {
+      return res
+        .status(400)
+        .json({
+          error: "Attendance record already exists for this date and user.",
+        });
+    }
+
     const attendance = await Attendance.create({
       userId,
       date,
-      status: 'Present',
+      status: "Present",
       clockinTime,
-      latitudeClockin,
-      longitudeClockin,
+      latitudeClockin: latitudeClockin || null,
+      longitudeClockin: longitudeClockin || null,
     });
-    console.log(attendance, "atte");
+
     res.status(201).json(attendance);
   } catch (error) {
-    console.error(error, "err");
+    console.error("Clock In Error:", error);
     if (error.message.includes("required")) {
       res.status(400).json({ error: error.message });
     } else if (error.message.includes("format")) {
@@ -104,68 +117,96 @@ exports.markAttendanceClockIn = async (req, res) => {
   }
 };
 
-exports.markAttendanceClockOut=async(req,res)=>{
+// Mark Attendance Clock Out
+exports.markAttendanceClockOut = async (req, res) => {
   try {
-    const {
-      userId,
-      date,
-      clockoutTime,
-      latitudeClockout,
-      longitudeClockout,
-    } = req.body;
-    const attendance = await Attendance.update({
-      userId,
-      date,
-      clockoutTime,
-      latitudeClockout,
-      longitudeClockout,
-    },{
-  where:{
-    userId:userId,
-    latitudeClockout:null,
-  }
-  });
-  console.log(attendance,"uuuuu")
-    res.status(201).json(attendance);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-}
+    const { userId, date, clockoutTime, latitudeClockout, longitudeClockout } = req.body;
 
-exports.markAttendance = async (req, res) => {
-  try {
-    const {
-      userId,
-      date,
-      status,
-      clockinTime,
-      latitudeClockin,
-      longitudeClockin,
-      clockoutTime,
-      latitudeClockout,
-      longitudeClockout,
-    } = req.body;
-    const attendance = await Attendance.create({
-      userId,
-      date,
-      status,
-      clockinTime,
-      latitudeClockin,
-      longitudeClockin,
-      clockoutTime,
-      latitudeClockout,
-      longitudeClockout,
-    });
-    res.status(201).json(attendance);
+    console.log("Clock Out Request Body:", req.body);
+
+    const [num] = await Attendance.update(
+      {
+        clockoutTime,
+        latitudeClockout: latitudeClockout || null,
+        longitudeClockout: longitudeClockout || null,
+      },
+      {
+        where: {
+          userId,
+          date,
+          clockoutTime: null,
+        },
+      }
+    );
+
+    if (num === 1) {
+      res.status(200).json({ message: "Attendance clocked out successfully" });
+    } else {
+      res.status(404).json({
+        message: "Attendance record not found or already clocked out",
+      });
+    }
   } catch (error) {
+    console.error("Clock Out Error:", error);
     res.status(500).json({ error: error.message });
   }
 };
+
+
 // Retrieve all Attendance records
-exports.findAll = async (req, res) => {
+// exports.findAll = async (req, res) => {
+//   try {
+//     const attendances = await Attendance.findAll({
+//       include: {
+//         model: User,
+//         attributes: { exclude: ["password", "role"] },
+//       },
+//     });
+//     res.status(200).json(
+//       attendances.map((attendance) => ({
+//         ...attendance.toJSON(),
+//         User: excludeSensitiveUserFields(attendance.User),
+//       }))
+//     );
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
+
+// Retrieve Attendance records by date and/or userId or none (it replaced the findAll function)
+exports.findByDateAndUserId = async (req, res) => {
   try {
-    const attendances = await Attendance.findAll({ include: User });
-    res.status(200).json(attendances);
+    const { userId, date } = req.query;
+    const whereConditions = {};
+
+    if (userId) {
+      whereConditions.userId = userId;
+    }
+
+    if (date) {
+      const parsedDate = moment(date, "YYYY-MM-DD", true);
+      if (!parsedDate.isValid()) {
+        return res
+          .status(422)
+          .json({ error: "Invalid date format, use YYYY-MM-DD" });
+      }
+      whereConditions.date = parsedDate.format("YYYY-MM-DD");
+    }
+
+    const attendances = await Attendance.findAll({
+      where: whereConditions,
+      include: {
+        model: User,
+        attributes: { exclude: ["password", "role"] },
+      },
+    });
+
+    res.status(200).json(
+      attendances.map((attendance) => ({
+        ...attendance.toJSON(),
+        User: excludeSensitiveUserFields(attendance.User),
+      }))
+    );
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -183,9 +224,17 @@ exports.findAllRecent = async (req, res) => {
           ],
         },
       },
-      include: [User],
+      include: {
+        model: User,
+        attributes: { exclude: ["password", "role"] },
+      },
     });
-    res.status(200).json(attendances);
+    res.status(200).json(
+      attendances.map((attendance) => ({
+        ...attendance.toJSON(),
+        User: excludeSensitiveUserFields(attendance.User),
+      }))
+    );
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -208,10 +257,16 @@ exports.findAllRecentAndDept = async (req, res) => {
         {
           model: User,
           where: { departmentId: deptId },
+          attributes: { exclude: ["password", "role"] },
         },
       ],
     });
-    res.status(200).json(attendances);
+    res.status(200).json(
+      attendances.map((attendance) => ({
+        ...attendance.toJSON(),
+        User: excludeSensitiveUserFields(attendance.User),
+      }))
+    );
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -231,9 +286,17 @@ exports.findAllRecentAndUser = async (req, res) => {
         },
         userId: userId,
       },
-      include: [User],
+      include: {
+        model: User,
+        attributes: { exclude: ["password", "role"] },
+      },
     });
-    res.status(200).json(attendances);
+    res.status(200).json(
+      attendances.map((attendance) => ({
+        ...attendance.toJSON(),
+        User: excludeSensitiveUserFields(attendance.User),
+      }))
+    );
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -248,10 +311,16 @@ exports.findAllByDeptId = async (req, res) => {
         {
           model: User,
           where: { departmentId: deptId },
+          attributes: { exclude: ["password", "role"] },
         },
       ],
     });
-    res.status(200).json(attendances);
+    res.status(200).json(
+      attendances.map((attendance) => ({
+        ...attendance.toJSON(),
+        User: excludeSensitiveUserFields(attendance.User),
+      }))
+    );
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -263,9 +332,17 @@ exports.getAttendanceByUser = async (req, res) => {
   try {
     const attendances = await Attendance.findAll({
       where: { userId },
-      include: [User],
+      include: {
+        model: User,
+        attributes: { exclude: ["password", "role"] },
+      },
     });
-    res.status(200).json(attendances);
+    res.status(200).json(
+      attendances.map((attendance) => ({
+        ...attendance.toJSON(),
+        User: excludeSensitiveUserFields(attendance.User),
+      }))
+    );
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -275,8 +352,16 @@ exports.getAttendanceByUser = async (req, res) => {
 exports.findOne = async (req, res) => {
   const id = req.params.id;
   try {
-    const attendance = await Attendance.findByPk(id);
-    res.status(200).json(attendance);
+    const attendance = await Attendance.findByPk(id, {
+      include: {
+        model: User,
+        attributes: { exclude: ["password", "role"] },
+      },
+    });
+    res.status(200).json({
+      ...attendance.toJSON(),
+      User: excludeSensitiveUserFields(attendance.User),
+    });
   } catch (error) {
     res
       .status(500)
@@ -288,8 +373,8 @@ exports.findOne = async (req, res) => {
 exports.update = async (req, res) => {
   const id = req.params.id;
   try {
-    const num = await Attendance.update(req.body, { where: { id } });
-    if (num == 1) {
+    const [num] = await Attendance.update(req.body, { where: { id } });
+    if (num === 1) {
       res.status(200).json({ message: "Attendance was updated successfully." });
     } else {
       res.status(400).json({
@@ -306,7 +391,7 @@ exports.delete = async (req, res) => {
   const id = req.params.id;
   try {
     const num = await Attendance.destroy({ where: { id } });
-    if (num == 1) {
+    if (num === 1) {
       res.status(200).json({ message: "Attendance was deleted successfully!" });
     } else {
       res.status(400).json({

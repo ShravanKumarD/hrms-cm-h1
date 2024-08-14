@@ -3,14 +3,17 @@ const router = express.Router();
 const attendanceController = require("../controllers/attendance.controller.js");
 const withAuth = require("../withAuth");
 
+// Mark Attendance Clock In
+router.post('/clock-in', withAuth.verifyToken, attendanceController.markAttendanceClockIn);
 
-router.put('/clock-out',withAuth.verifyToken,attendanceController.markAttendanceClockOut);
+// Mark Attendance Clock Out
+router.put('/clock-out', withAuth.verifyToken, attendanceController.markAttendanceClockOut);
 
 // Create and Save a new Attendance record
 router.post("/mark", withAuth.verifyToken, attendanceController.markAttendance);
 
-// Retrieve all Attendance records
-router.get("/", withAuth.verifyToken, attendanceController.findAll);
+// Retrieve all Attendance records or filter by date and/or userId
+router.get("/", withAuth.verifyToken, attendanceController.findByDateAndUserId);
 
 // Retrieve Attendance records for the last 14 days and the next 7 days
 router.get("/recent", withAuth.verifyToken, attendanceController.findAllRecent);
@@ -61,7 +64,5 @@ router.delete(
   withAuth.verifyToken,
   attendanceController.deleteAllByUserId
 );
-
-router.post('/clock-in',  withAuth.verifyToken,attendanceController.markAttendanceClockIn);
 
 module.exports = router;

@@ -12,6 +12,7 @@ const debug = require("debug")("server:server");
 
 const db = require("./models");
 const UserDocumentsModel = require("./models/userDocuments.model"); // Adjust the path to your model
+// const Attendance = require("./models/attendance.model");
 
 require("dotenv").config();
 
@@ -36,9 +37,9 @@ db.sequelize.sync({}).then(() => {
   console.log("Database synchronized.");
 });
 
-// const UserDocuments = db.userDocuments;
+// const Attendance = db.attendance;
 
-// UserDocuments.sync({ alter: true })
+// Attendance.sync({ force: true })
 //   .then(() => {
 //     console.log("UserDocuments table has been synchronized.");
 //   })
