@@ -32,11 +32,9 @@ exports.markAttendance = async (req, res) => {
     });
 
     if (existingAttendance) {
-      return res
-        .status(400)
-        .json({
-          error: "Attendance record already exists for this date and user.",
-        });
+      return res.status(400).json({
+        error: "Attendance record already exists for this date and user.",
+      });
     }
 
     const attendance = await Attendance.create({
@@ -54,11 +52,9 @@ exports.markAttendance = async (req, res) => {
     res.status(201).json(attendance);
   } catch (error) {
     if (error.name === "SequelizeUniqueConstraintError") {
-      res
-        .status(400)
-        .json({
-          error: "Attendance record already exists for this date and user.",
-        });
+      res.status(400).json({
+        error: "Attendance record already exists for this date and user.",
+      });
     } else {
       res.status(500).json({ error: error.message });
     }
@@ -68,7 +64,8 @@ exports.markAttendance = async (req, res) => {
 // Mark Attendance Clock In
 exports.markAttendanceClockIn = async (req, res) => {
   try {
-    const { userId, date, clockinTime, latitudeClockin, longitudeClockin } = req.body;
+    const { userId, date, clockinTime, latitudeClockin, longitudeClockin } =
+      req.body;
 
     console.log("Clock In Request Body:", req.body);
 
@@ -88,11 +85,9 @@ exports.markAttendanceClockIn = async (req, res) => {
     });
 
     if (existingAttendance) {
-      return res
-        .status(400)
-        .json({
-          error: "Attendance record already exists for this date and user.",
-        });
+      return res.status(400).json({
+        error: "Attendance record already exists for this date and user.",
+      });
     }
 
     const attendance = await Attendance.create({
@@ -120,7 +115,8 @@ exports.markAttendanceClockIn = async (req, res) => {
 // Mark Attendance Clock Out
 exports.markAttendanceClockOut = async (req, res) => {
   try {
-    const { userId, date, clockoutTime, latitudeClockout, longitudeClockout } = req.body;
+    const { userId, date, clockoutTime, latitudeClockout, longitudeClockout } =
+      req.body;
 
     console.log("Clock Out Request Body:", req.body);
 
@@ -151,7 +147,6 @@ exports.markAttendanceClockOut = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 // Retrieve all Attendance records
 // exports.findAll = async (req, res) => {
@@ -341,6 +336,7 @@ exports.getAttendanceByUser = async (req, res) => {
       attendances.map((attendance) => ({
         ...attendance.toJSON(),
         User: excludeSensitiveUserFields(attendance.User),
+        totalHours: attendance.totalHours, // This line is optional, the virtual field is already included in attendance.toJSON()
       }))
     );
   } catch (error) {
@@ -430,5 +426,65 @@ exports.deleteAllByUserId = async (req, res) => {
       .json({ message: `${nums} Attendances were deleted successfully!` });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+// Fetch worked hours by date for a specific user
+exports.getWorkedHoursByDate = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const date = moment(req.params.date, "YYYY-MM-DD").startOf("day").toDate();
+
+    const attendanceRecord = await Attendance.findOne({
+      where: {
+        userId: userId,
+        date: date,
+      },
+    });
+
+    if (!attendanceRecord) {
+      return res
+        .status(404)
+        .json({ message: "Attendance record not found for the given date" });
+    }
+
+    const clockinTime = moment(attendanceRecord.clockinTime, "HH:mm:ss");
+    const clockoutTime = moment(attendanceRecord.clockoutTime, "HH:mm:ss");
+    const workedHours = clockoutTime.diff(clockinTime, "hours", true); // Calculate worked hours
+
+    res.status(200).json({ date: req.params.date, workedHours });
+  } catch (error) {
+    console.error("Error fetching worked hours:", error);
+    res.status(500).send("Server error");
+  }
+};
+
+// Fetch worked hours for the last 7 days for a specific user
+exports.getWorkedHoursLast7Days = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const today = moment().startOf("day").toDate();
+    const startDate = moment().subtract(7, "days").startOf("day").toDate();
+
+    const attendanceRecords = await Attendance.findAll({
+      where: {
+        userId: userId,
+        date: {
+          [Op.between]: [startDate, today],
+        },
+      },
+    });
+
+    const workedHoursLast7Days = attendanceRecords.map((record) => {
+      const clockinTime = moment(record.clockinTime, "HH:mm:ss");
+      const clockoutTime = moment(record.clockoutTime, "HH:mm:ss");
+      const workedHours = clockoutTime.diff(clockinTime, "hours", true);
+      return { date: moment(record.date).format("YYYY-MM-DD"), workedHours };
+    });
+
+    res.status(200).json(workedHoursLast7Days);
+  } catch (error) {
+    console.error("Error fetching worked hours for last 7 days:", error);
+    res.status(500).send("Server error");
   }
 };

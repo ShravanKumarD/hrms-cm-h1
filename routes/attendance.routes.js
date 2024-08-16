@@ -4,10 +4,18 @@ const attendanceController = require("../controllers/attendance.controller.js");
 const withAuth = require("../withAuth");
 
 // Mark Attendance Clock In
-router.post('/clock-in', withAuth.verifyToken, attendanceController.markAttendanceClockIn);
+router.post(
+  "/clock-in",
+  withAuth.verifyToken,
+  attendanceController.markAttendanceClockIn
+);
 
 // Mark Attendance Clock Out
-router.put('/clock-out', withAuth.verifyToken, attendanceController.markAttendanceClockOut);
+router.put(
+  "/clock-out",
+  withAuth.verifyToken,
+  attendanceController.markAttendanceClockOut
+);
 
 // Create and Save a new Attendance record
 router.post("/mark", withAuth.verifyToken, attendanceController.markAttendance);
@@ -48,6 +56,20 @@ router.get(
 
 // Find a single Attendance record by id
 router.get("/:id", withAuth.verifyToken, attendanceController.findOne);
+
+// Get worked hours by date for a user
+router.get(
+  "/worked-hours/user/:id/date/:date",
+  withAuth.verifyToken,
+  attendanceController.getWorkedHoursByDate
+);
+
+// Get worked hours for the last 7 days for a user
+router.get(
+  "/worked-hours/user/:id/last7days",
+  withAuth.verifyToken,
+  attendanceController.getWorkedHoursLast7Days
+);
 
 // Update an Attendance record by the id in the request
 router.put("/:id", withAuth.verifyToken, attendanceController.update);

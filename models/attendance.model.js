@@ -1,3 +1,4 @@
+const moment = require("moment");
 module.exports = (sequelize, Sequelize) => {
   const Attendance = sequelize.define(
     "Attendance",
@@ -42,6 +43,32 @@ module.exports = (sequelize, Sequelize) => {
       longitudeClockout: {
         type: Sequelize.FLOAT,
         allowNull: true,
+      },
+      // Virtual field to calculate total hours
+      totalHours: {
+        type: Sequelize.VIRTUAL,
+        get() {
+          const clockinTime = this.getDataValue("clockinTime");
+          let clockoutTime = this.getDataValue("clockoutTime");
+
+          if (!clockinTime || !clockoutTime) {
+            return null;
+          }
+
+          const clockinMoment = moment(clockinTime, "HH:mm:ss");
+          let clockoutMoment = moment(clockoutTime, "HH:mm:ss");
+
+          // Handle clock out on a different day
+          if (clockoutMoment.isBefore(clockinMoment, "day")) {
+            clockoutMoment = moment(
+              `${this.getDataValue("date")} 23:59:59`,
+              "YYYY-MM-DD HH:mm:ss"
+            );
+          }
+
+          const duration = moment.duration(clockoutMoment.diff(clockinMoment));
+          return duration.asHours().toFixed(2);
+        },
       },
     },
     {
