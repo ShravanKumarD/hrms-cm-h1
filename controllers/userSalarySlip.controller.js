@@ -25,6 +25,8 @@ exports.createSalarySlip = async (req, res) => {
       employee_pf,
       other_deductions,
       total_deductions,
+      daysWorked,
+      lop,
     } = req.body;
 
     const salarySlip = await UserSalarySlip.create({
@@ -45,6 +47,8 @@ exports.createSalarySlip = async (req, res) => {
       employee_pf,
       other_deductions,
       total_deductions,
+      daysWorked,
+      lop,
     });
 
     res.status(201).send(salarySlip);
