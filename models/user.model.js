@@ -32,8 +32,8 @@ module.exports = (sequelize, Sequelize) => {
       },
       role: {
         type: Sequelize.ENUM,
-        values: ["ROLE_ADMIN", "ROLE_MANAGER", "ROLE_EMPLOYEE"],
-        allowNull: false,
+        values: ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_EMPLOYEE','ROLE_HR'],
+        allowNull: false
       },
       active: {
         type: Sequelize.BOOLEAN,

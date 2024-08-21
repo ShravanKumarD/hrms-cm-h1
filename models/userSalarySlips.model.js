@@ -80,6 +80,14 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      daysWorked:{
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
+      lop:{
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
     },
     {
       timestamps: false,

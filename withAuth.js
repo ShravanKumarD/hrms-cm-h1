@@ -65,7 +65,7 @@ exports.withRoleAdmin = (req, res, next) => {
     })
     .then(user => {
         if(user) {
-            if(user.role === "ROLE_ADMIN") {
+            if(user.role === "ROLE_ADMIN" || user.role === "ROLE_HR") {
                 req.authData = authData;
                 next()
             } else {
@@ -78,6 +78,7 @@ exports.withRoleAdmin = (req, res, next) => {
 }
 
 exports.withRoleAdminOrManager = (req, res, next) => {
+    console.log('admin or manager')
     var authData = req.authData;
 
     User.findOne({
@@ -85,7 +86,7 @@ exports.withRoleAdminOrManager = (req, res, next) => {
     })
     .then(user => {
         if(user) {
-            if(user.role === "ROLE_ADMIN" || user.role === "ROLE_MANAGER") {
+            if(user.role === "ROLE_ADMIN" || user.role === "ROLE_MANAGER" || user.role==="ROLE_HR") {
                 req.authData = authData;
                 next()
             } else {
@@ -98,6 +99,7 @@ exports.withRoleAdminOrManager = (req, res, next) => {
 }
 
 exports.withRoleManager = (req, res, next) => {
+    console.log('manager')
     var authData = req.authData;
 
     User.findOne({
@@ -118,6 +120,7 @@ exports.withRoleManager = (req, res, next) => {
 }
 
 exports.withRoleEmployee = (req, res, next) => {
+    console.log('employee')
     var authData = req.authData;
 
     User.findOne({
