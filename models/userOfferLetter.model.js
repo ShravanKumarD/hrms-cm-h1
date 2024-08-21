@@ -36,7 +36,7 @@ module.exports = (sequelize, Sequelize) => {
       end_date: {
         type: Sequelize.DATE,
         allowNull: true,
-        defaultValue: Sequelize.literal(" '2099-12-31' "), // Set default value to 2099-12-31
+        defaultValue: Sequelize.literal("2099-12-31"), // Set default value to 2099-12-31
       },
       location: {
         type: Sequelize.STRING,
