@@ -20,6 +20,27 @@ router.put(
 // Create and Save a new Attendance record
 router.post("/mark", withAuth.verifyToken, attendanceController.markAttendance);
 
+// Retrieve attendance for today for all users
+router.get(
+  "/today",
+  withAuth.verifyToken,
+  attendanceController.getTodayAttendance
+);
+
+// Retrieve attendance for this month for all users
+router.get(
+  "/this-month",
+  withAuth.verifyToken,
+  attendanceController.getThisMonthAttendance
+);
+
+// Retrieve attendance for this year for all users
+router.get(
+  "/this-year",
+  withAuth.verifyToken,
+  attendanceController.getThisYearAttendance
+);
+
 // Retrieve all Attendance records or filter by date and/or userId
 router.get("/", withAuth.verifyToken, attendanceController.findByDateAndUserId);
 

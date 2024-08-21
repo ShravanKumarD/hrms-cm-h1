@@ -17,7 +17,16 @@ module.exports = (sequelize, Sequelize) => {
       },
       status: {
         type: Sequelize.ENUM,
-        values: ["Present", "Absent", "Leave"],
+        values: [
+          "Regularisation",
+          "Work From Home",
+          "Comp Off",
+          "Restricted Holiday",
+          "Short Leave",
+          "Present",
+          "Absent",
+          "Leave",
+        ],
         allowNull: false,
       },
       clockinTime: {
@@ -55,8 +64,14 @@ module.exports = (sequelize, Sequelize) => {
             return null;
           }
 
-          const clockinMoment = moment(clockinTime, "HH:mm:ss");
-          let clockoutMoment = moment(clockoutTime, "HH:mm:ss");
+          const clockinMoment = moment(clockinTime, [
+            "HH:mm:ss",
+            "YYYY-MM-DD HH:mm:ss",
+          ]);
+          let clockoutMoment = moment(clockoutTime, [
+            "HH:mm:ss",
+            "YYYY-MM-DD HH:mm:ss",
+          ]);
 
           // Handle clock out on a different day
           if (clockoutMoment.isBefore(clockinMoment, "day")) {

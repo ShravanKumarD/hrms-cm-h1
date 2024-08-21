@@ -488,3 +488,92 @@ exports.getWorkedHoursLast7Days = async (req, res) => {
     res.status(500).send("Server error");
   }
 };
+
+// Retrieve attendance for today for all users
+exports.getTodayAttendance = async (req, res) => {
+  try {
+    const today = moment().startOf("day");
+    const attendances = await Attendance.findAll({
+      where: {
+        date: today.format("YYYY-MM-DD"),
+      },
+      include: {
+        model: User,
+        attributes: { exclude: ["password", "role"] },
+      },
+    });
+
+    res.status(200).json(
+      attendances.map((attendance) => ({
+        ...attendance.toJSON(),
+        User: excludeSensitiveUserFields(attendance.User),
+      }))
+    );
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Retrieve attendance for this month for all users
+exports.getThisMonthAttendance = async (req, res) => {
+  try {
+    const startOfMonth = moment().startOf("month");
+    const endOfMonth = moment().endOf("month");
+
+    const attendances = await Attendance.findAll({
+      where: {
+        date: {
+          [Op.between]: [
+            startOfMonth.format("YYYY-MM-DD"),
+            endOfMonth.format("YYYY-MM-DD"),
+          ],
+        },
+      },
+      include: {
+        model: User,
+        attributes: { exclude: ["password", "role"] },
+      },
+    });
+
+    res.status(200).json(
+      attendances.map((attendance) => ({
+        ...attendance.toJSON(),
+        User: excludeSensitiveUserFields(attendance.User),
+      }))
+    );
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Retrieve attendance for this year for all users
+exports.getThisYearAttendance = async (req, res) => {
+  try {
+    const startOfYear = moment().startOf("year");
+    const endOfYear = moment().endOf("year");
+
+    const attendances = await Attendance.findAll({
+      where: {
+        date: {
+          [Op.between]: [
+            startOfYear.format("YYYY-MM-DD"),
+            endOfYear.format("YYYY-MM-DD"),
+          ],
+        },
+      },
+      include: {
+        model: User,
+        attributes: { exclude: ["password", "role"] },
+      },
+    });
+
+    res.status(200).json(
+      attendances.map((attendance) => ({
+        ...attendance.toJSON(),
+        User: excludeSensitiveUserFields(attendance.User),
+      }))
+    );
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
