@@ -61,6 +61,13 @@ router.get(
   attendanceController.findAllRecentAndUser
 );
 
+// Retrieve Attendance records for today for a specific user
+router.get(
+  "/today/user/:id",
+  withAuth.verifyToken,
+  attendanceController.getTodayAttendanceByUser
+);
+
 // Retrieve Attendance records by Department Id
 router.get(
   "/department/:id",

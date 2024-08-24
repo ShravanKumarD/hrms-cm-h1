@@ -207,6 +207,37 @@ exports.findByDateAndUserId = async (req, res) => {
   }
 };
 
+// Retrieve attendance for today for a specific user
+exports.getTodayAttendanceByUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const today = moment().startOf("day").format("YYYY-MM-DD");
+
+    const attendance = await Attendance.findOne({
+      where: {
+        userId: userId,
+        date: today,
+      },
+      include: {
+        model: User,
+        attributes: { exclude: ["password", "role"] },
+      },
+    });
+
+    if (!attendance) {
+      return res.status(404).json({ message: "No attendance record found for today." });
+    }
+
+    res.status(200).json({
+      ...attendance.toJSON(),
+      User: excludeSensitiveUserFields(attendance.User),
+    });
+  } catch (error) {
+    console.error("Error fetching today's attendance:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 // Retrieve Attendance records for the last 14 days and the next 7 days
 exports.findAllRecent = async (req, res) => {
   try {
