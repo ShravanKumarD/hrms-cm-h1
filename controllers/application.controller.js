@@ -24,6 +24,7 @@ exports.create = (req, res) => {
     status: "pending",
     type: req.body.type,
     userId: req.body.userId,
+    appliedOn:req.body.appliedOn,
   };
 
   // Save Application in the database

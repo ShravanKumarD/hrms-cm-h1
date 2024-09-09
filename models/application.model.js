@@ -25,6 +25,10 @@ module.exports = (sequelize, Sequelize) => {
         values: ["Approved", "Rejected", "Pending"],
         allowNull: false,
       },
+      appliedOn:{
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
       type: {
         type: Sequelize.ENUM,
         values: [
