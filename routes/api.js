@@ -22,6 +22,7 @@ const userResignationLetterRouter = require("./userResignationLetter.routes");
 const userRelievingLetterRouter = require("./userRelievingLetter.routes");
 const attendanceRouter = require("./attendance.routes");
 const userDocumentsRouter = require("./userDocuments.routes");
+const userHolidays = require("./holiday.routes");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -49,5 +50,6 @@ router.use("/resignationLetters", userResignationLetterRouter);
 router.use("/relievingLetters", userRelievingLetterRouter);
 // router.use("/uploadLetters", userDocumentsRouter);
 router.use("/attendance", attendanceRouter);
+router.use("/holiday",userHolidays);
 
 module.exports = router;

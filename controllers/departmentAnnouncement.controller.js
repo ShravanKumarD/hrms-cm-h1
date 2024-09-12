@@ -6,32 +6,40 @@ const Op = db.Sequelize.Op;
 
 // Create and Save a new Department Announcement Announcement
 exports.create = (req, res) => {
+  console.log(req.body, "body");
+
   // Validate request
   if (!req.body) {
-    res.status(400).send({
-      message: "Content can not be empty!"
+    return res.status(400).send({
+      message: "Content cannot be empty!"
     });
-    return;
   }
 
-  // Create a Department Announcement
-  const departmentAnnouncement = {
-    announcementTitle: req.body.announcementTitle,
-    announcementDescription: req.body.announcementDescription,
-    createdByUserId: req.body.createdByUserId,
-    departmentId: req.body.departmentId,
-    createdAt: new Date()
-  };
+  // Extract and validate the fields from request body
+  const { announcementTitle, announcementDescription, createdByUserId, departmentId, createdAt } = req.body;
 
+  if (!announcementTitle || !announcementDescription || !createdByUserId) {
+    return res.status(400).send({
+      message: "Announcement title, description, and creator ID are required!"
+    });
+  }
+
+  const departmentAnnouncement = {
+    announcementTitle,
+    announcementDescription,
+    createdByUserId,
+    departmentId: departmentId || null,
+    createdAt: createdAt ? new Date(createdAt).toISOString() : new Date().toISOString()
+  };
   // Save Department Announcement in the database
   DepartmentAnnouncement.create(departmentAnnouncement)
     .then(data => {
       res.send(data);
     })
     .catch(err => {
+      console.log(err, "error");
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the Department Announcement."
+        message: err.message || "Some error occurred while creating the Department Announcement."
       });
     });
 };
@@ -65,7 +73,7 @@ exports.findAllRecent = (req, res) => {
       model: Department
     }],
     order: [["createdAt", "DESC"]],
-    limit: 2
+    limit: 3
   })
     .then(data => {
       res.send(data);

@@ -60,7 +60,9 @@ db.userRelievingLetter = require("./userRelievingLetter.model")(
   sequelize,
   Sequelize
 );
-
+db.holiday=require("./holidays.modal.js")(sequelize, Sequelize);
+db.user.hasMany(db.holiday, { foreignKey: 'userId' });
+db.holiday.belongsTo(db.user, { foreignKey: 'userId' });
 // User Associations
 db.user.hasOne(db.userPersonalInfo, { foreignKey: { allowNull: false } });
 db.user.hasOne(db.userFinancialInfo, { foreignKey: { allowNull: false } });
