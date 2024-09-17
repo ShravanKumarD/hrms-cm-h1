@@ -22,6 +22,6 @@ router.get('/user/:id', withAuth.verifyToken, financialInformation.findByUserId)
 router.get('/:id', withAuth.verifyToken, financialInformation.findOne);
 
 // Update a User Financial Information with an id
-router.put('/:id', withAuth.verifyToken, withAuth.withRoleAdmin, financialInformation.update);
+router.put('/:id', withAuth.verifyToken,financialInformation.update);
 
 module.exports = router;
