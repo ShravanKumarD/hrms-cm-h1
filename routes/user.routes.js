@@ -9,7 +9,7 @@ const user = require("../controllers/user.controller.js");
 router.post('/', user.create);
 
 // Retrieve all Users
-router.get('/', withAuth.verifyToken, user.findAll);
+router.get('/', withAuth.verifyToken,withAuth.withAnyRole, user.findAll);
 
 // Retrieve all User full names | Added new 2 Aug 2024
 router.get('/fullnames', withAuth.verifyToken, withAuth.withRoleAdminOrManager, user.findAllFullNames);

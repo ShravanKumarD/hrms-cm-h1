@@ -139,3 +139,24 @@ exports.withRoleEmployee = (req, res, next) => {
         }
     })
 }
+
+exports.withAnyRole=(req,res,next)=>{
+    console.log('admin or manager')
+    var authData = req.authData;
+
+    User.findOne({
+        where: {id: authData.user.id}
+    })
+    .then(user => {
+        if(user) {
+            if(user.role === "ROLE_ADMIN" || user.role === "ROLE_MANAGER" || user.role==="ROLE_HR"||user.role === "ROLE_EMPLOYEE") {
+                req.authData = authData;
+                next()
+            } else {
+                res.status(401).send({message: "Access denied: Role can't access this api"})
+            }
+        } else {
+            res.status(401).send({message: "Forbidden"})
+        }
+    })
+}
